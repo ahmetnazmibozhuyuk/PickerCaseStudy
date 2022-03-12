@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     //@TODO: Kamerayı ve kamera kolunu düzgün bir şekilde bağlamanın bir yolunu düşün.
     //@TODO: Toplanan objelerin collisionu continuous dynamic ve playerın collisionu continuous olursa arıza az ama performans kötü.
 
+    //@todo: Spawn noktasını düzgün ayarla!
+
     private void Awake()
     {
         //GameManager.Instance.Player = this;

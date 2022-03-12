@@ -16,6 +16,8 @@ public class EnterLevel : MonoBehaviour
         {
             Debug.Log(other.tag);
             SceneManager.Instance.EnablePiece(1);
+            SceneManager.Instance.DisableOldestPiece();
+            SceneManager.Instance.CurrentLevelFinished();
         }
     }
     //BU TRIGGERA GİRERKEN DEĞİL BUNDAN ÇIKARKEN BİR ÖNCEKİNİ TEMİZLE.

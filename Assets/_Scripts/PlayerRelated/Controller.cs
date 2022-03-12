@@ -65,7 +65,7 @@ public class Controller : MonoBehaviour
         _clickCenterX = Input.mousePosition.x;
         _playerDownPositionX = transform.position.x;
     }
-    private void InputIsActive()
+    private void InputIsActive() //@TODO DÜZGÜN ŞEKİLDE REFACTOR ETMEYE ÇALIŞ!
     {
         _xDisplacement = (Input.mousePosition.x - _clickCenterX) * sensitivity;
 

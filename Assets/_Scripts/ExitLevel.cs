@@ -15,8 +15,8 @@ public class ExitLevel : MonoBehaviour
         if (other.tag == "Player")
         {
             Debug.Log(other.tag);
-            SceneManager.Instance.DisableOldestPiece();
             GameManager.Instance.ChangeState(GameState.GameCheckingResults);
+
         }
     }
 }
