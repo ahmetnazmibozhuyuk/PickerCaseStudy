@@ -27,11 +27,12 @@ public class GameManager : Singleton<GameManager>
             case GameState.GameStarted:
                 Debug.Log("game is started");
                 break;
+            case GameState.GameCheckingResults:
+                Debug.Log("game checking results");
+                StartCoroutine(Co_NextLevel());
+                break;
             case GameState.GameWon:
                 Debug.Log("game is won");
-                break;
-            case GameState.GameWonResult:
-                Debug.Log("game win results");
                 break;
             case GameState.GameLost:
                 Debug.Log("game is lost");
@@ -41,13 +42,19 @@ public class GameManager : Singleton<GameManager>
                 break;
         }
     }
+    private IEnumerator Co_NextLevel()
+    {
+        yield return new WaitForSeconds(2);
+        ChangeState(GameState.GameStarted);
+
+    }
 }
 public enum GameState
 {
     GamePreStart = 0,
     GameAwaitingStart = 1,
     GameStarted = 2,
-    GameWon = 3,
-    GameWonResult = 4,
+    GameCheckingResults = 3,
+    GameWon = 4,
     GameLost = 5,
 }

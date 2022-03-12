@@ -18,7 +18,11 @@ public class Controller : MonoBehaviour
     private Vector3 _leftFallPoint;
     private Vector3 _rightFallPoint;
 
-    public Vector3 Direction;
+    //public Vector3 Direction;
+    //@TODO REMOVE MAGIC NUMBERS!
+
+    [SerializeField] private float sensitivity = 0.02f;
+    [SerializeField] private float forwardSpeed = 0.1f;
 
     [SerializeField] private SelectController selectController;
     private void Awake()
@@ -47,12 +51,12 @@ public class Controller : MonoBehaviour
     }
     private bool CanMoveLeft()
     {
-        _leftFallPoint = new Vector3(transform.localPosition.x - 2.5f, transform.position.y, transform.position.z);
+        _leftFallPoint = new Vector3(transform.localPosition.x - 2.1f, transform.position.y, transform.position.z);
         return Physics.Raycast(_leftFallPoint, -Vector3.up, 5);
     }
     private bool CanMoveRight()
     {
-        _rightFallPoint = new Vector3(transform.localPosition.x + 2.5f, transform.position.y, transform.position.z);
+        _rightFallPoint = new Vector3(transform.localPosition.x + 2.1f, transform.position.y, transform.position.z);
         return Physics.Raycast(_rightFallPoint, -Vector3.up, 5);
     }
     private void InputActivated()
@@ -63,7 +67,7 @@ public class Controller : MonoBehaviour
     }
     private void InputIsActive()
     {
-        _xDisplacement = (Input.mousePosition.x - _clickCenterX) * 0.02f;
+        _xDisplacement = (Input.mousePosition.x - _clickCenterX) * sensitivity;
 
         if (_xDisplacement < 0 && !CanMoveLeft())
         {
@@ -87,7 +91,15 @@ public class Controller : MonoBehaviour
 
     private void SetMovement()
     {
-        Movement = new Vector3(Mathf.Clamp(_playerDownPositionX + _xDisplacement, -3f, 3f), transform.position.y, transform.position.z + 0.1f); //@TODO REMOVE MAGIC NUMBERS!
+        if (GameManager.Instance.CurrentState == GameState.GameStarted)
+        {
+            Movement = new Vector3(Mathf.Clamp(_playerDownPositionX + _xDisplacement, -3f, 3f), transform.position.y, transform.position.z + forwardSpeed);
+        }
+        else
+        {
+            Movement = new Vector3(Mathf.Clamp(_playerDownPositionX + _xDisplacement, -3f, 3f), transform.position.y, transform.position.z);
+        }
+
     }
 
     private void MouseController()

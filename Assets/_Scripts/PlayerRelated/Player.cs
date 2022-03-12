@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     private Controller _controller;
     private Collider _playerCollider;
 
+    [SerializeField] private AudioSource popSound;
     //@TODO: Kamerayı ve kamera kolunu düzgün bir şekilde bağlamanın bir yolunu düşün.
     //@TODO: Toplanan objelerin collisionu continuous dynamic ve playerın collisionu continuous olursa arıza az ama performans kötü.
 
@@ -31,10 +32,13 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
 
-        if (GameManager.Instance.CurrentState != GameState.GameStarted) return;
-
-
 
         _rigidbody.MovePosition(_controller.Movement);
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("COLLIDER HIT!!");
+        popSound.Play();
+        
     }
 }
