@@ -87,7 +87,7 @@ public class Controller : MonoBehaviour
 
     private void SetMovement()
     {
-        Movement = new Vector3(Mathf.Clamp(_playerDownPositionX + _xDisplacement, -4.5f, 4.5f), transform.position.y, transform.position.z + 0.1f); //@TODO REMOVE MAGIC NUMBERS!
+        Movement = new Vector3(Mathf.Clamp(_playerDownPositionX + _xDisplacement, -3f, 3f), transform.position.y, transform.position.z + 0.1f); //@TODO REMOVE MAGIC NUMBERS!
     }
 
     private void MouseController()
