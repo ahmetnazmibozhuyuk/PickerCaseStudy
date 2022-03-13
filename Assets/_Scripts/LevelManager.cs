@@ -39,7 +39,7 @@ public class LevelManager : Singleton<LevelManager>
     [SerializeField] private int currentLevel = 1;
 
 
-    private int latestSpawnedLevel = 0;
+    private int latestSpawnedLevel = 0; // @todo: + ile eklemek yerine son çıkan bölümün indexi olsun; aynı bölümün arka arkaya çıkmasına da engel olur.
 
 
     private int _initialSpawnAmount = 3;
@@ -52,8 +52,8 @@ public class LevelManager : Singleton<LevelManager>
     protected override void Awake()
     {
         base.Awake();
-        //CurrentLevel = PlayerPrefs.GetInt("CurrentLevel");
 
+        //PlayerPrefs.SetInt("currentLevel", 1);
         //latestSpawnedLevel = 0;
 
 
@@ -66,20 +66,15 @@ public class LevelManager : Singleton<LevelManager>
     public void InitializeGame()
     {
         //latestSpawnedLevel = PlayerPrefs.GetInt("latestSpawnedLevel");
-        if (PlayerPrefs.GetInt("0") != 0)
-        {
-            EnablePieceByNumber(PlayerPrefs.GetInt("0"));
-            EnablePieceByNumber(PlayerPrefs.GetInt("1"));
-            EnablePieceByNumber(PlayerPrefs.GetInt("2"));
-        }
+        //if (PlayerPrefs.GetInt("0") != 0)
+        //{
+
+        //}
+        EnablePieceByNumber(0);
+        EnablePieceByNumber(1);
+        EnablePieceByNumber(2);
     }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            EnablePiece();
-        }
-    }
+
     public void EnablePiece()
     {
 
@@ -132,14 +127,59 @@ public class LevelManager : Singleton<LevelManager>
             //instantiatedLevel.RemoveAt(0);
 
 
-            PlayerPrefs.SetInt("0", instantiatedLevelNumbers[0]);
-            PlayerPrefs.SetInt("1", instantiatedLevelNumbers[1]);
-            PlayerPrefs.SetInt("2", instantiatedLevelNumbers[2]);
+
         }
     }
     public void CurrentLevelFinished()
     {
         currentLevel++;
+
+
+    }
+    public void SaveLevels()
+    {
+        PlayerPrefs.SetInt("currentLevel", currentLevel);
+        PlayerPrefs.SetInt("0", instantiatedLevelNumbers[0]);
+        PlayerPrefs.SetInt("1", instantiatedLevelNumbers[1]);
+        PlayerPrefs.SetInt("2", instantiatedLevelNumbers[2]);
+    }
+    public void LoadLevels()
+    {
+        currentLevel = PlayerPrefs.GetInt("currentLevel");
+
+        //switch (currentLevel)
+        //{
+        //    case 0:
+        //        EnablePieceByNumber(0);
+        //        EnablePieceByNumber(1);
+        //        EnablePieceByNumber(2);
+        //        break;
+        //    case 1:
+        //        EnablePieceByNumber(1);
+        //        EnablePieceByNumber(2);
+        //        EnablePieceByNumber(3);
+        //        break;
+        //    case 2:
+        //        EnablePieceByNumber(1);
+        //        EnablePieceByNumber(2);
+        //        EnablePieceByNumber(3);
+        //        break;
+        //}
+        if(currentLevel == 1)
+        {
+            EnablePieceByNumber(0);
+            EnablePieceByNumber(1);
+            EnablePieceByNumber(2);
+        }
+        else
+        {
+            EnablePieceByNumber(PlayerPrefs.GetInt("0"));
+            EnablePieceByNumber(PlayerPrefs.GetInt("1"));
+            EnablePieceByNumber(PlayerPrefs.GetInt("2"));
+        }
+
+
+
 
     }
 

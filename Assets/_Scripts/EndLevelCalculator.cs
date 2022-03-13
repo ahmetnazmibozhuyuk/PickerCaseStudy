@@ -15,7 +15,6 @@ public class EndLevelCalculator : MonoBehaviour
         {
             movablePiece = transform.GetChild(0).gameObject;
         }
-        Debug.Log("lossy scale = "+transform.lossyScale);
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -55,7 +54,7 @@ public class EndLevelCalculator : MonoBehaviour
             Destroy(__collectedObjects[i].gameObject);
             //__collectedObjects.RemoveAt(0);
         }
-        LeanTween.move(movablePiece, new Vector3(movablePiece.transform.position.x, 0, movablePiece.transform.position.z), 1).setEase(LeanTweenType.easeOutQuad);
+        LeanTween.move(movablePiece, new Vector3(movablePiece.transform.position.x, 0, movablePiece.transform.position.z), 1).setEase(LeanTweenType.easeOutElastic);
     }
     private void LevelLost()
     {

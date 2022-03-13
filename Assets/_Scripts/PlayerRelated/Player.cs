@@ -33,8 +33,6 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-
-
         _rigidbody.MovePosition(_controller.Movement);
     }
     private void OnCollisionEnter(Collision collision)

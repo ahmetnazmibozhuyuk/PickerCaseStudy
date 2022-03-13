@@ -18,6 +18,7 @@ public class EnterLevel : MonoBehaviour
             LevelManager.Instance.EnablePiece();
             LevelManager.Instance.DisableOldestPiece();
             LevelManager.Instance.CurrentLevelFinished();
+            LevelManager.Instance.SaveLevels();
         }
     }
     //BU TRIGGERA GİRERKEN DEĞİL BUNDAN ÇIKARKEN BİR ÖNCEKİNİ TEMİZLE.

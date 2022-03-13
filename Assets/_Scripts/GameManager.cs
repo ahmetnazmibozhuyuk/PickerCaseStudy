@@ -56,7 +56,8 @@ public class GameManager : Singleton<GameManager>
     }
     private void GameAwaitingStartState()
     {
-        LevelManager.Instance.InitializeGame();
+        //LevelManager.Instance.InitializeGame();
+        LevelManager.Instance.LoadLevels();
     }
 }
 public enum GameState

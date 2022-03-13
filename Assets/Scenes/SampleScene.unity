@@ -556,15 +556,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelPieces:
   - {fileID: 8192810588590857661, guid: ff16a86d14f22564c8cd23425d7071ac, type: 3}
-  - {fileID: 8192810588590857661, guid: ff16a86d14f22564c8cd23425d7071ac, type: 3}
-  - {fileID: 8192810588590857661, guid: ff16a86d14f22564c8cd23425d7071ac, type: 3}
-  - {fileID: 8192810588590857661, guid: ff16a86d14f22564c8cd23425d7071ac, type: 3}
-  - {fileID: 8192810588590857661, guid: ff16a86d14f22564c8cd23425d7071ac, type: 3}
-  - {fileID: 8192810588590857661, guid: ff16a86d14f22564c8cd23425d7071ac, type: 3}
-  - {fileID: 8192810588590857661, guid: ff16a86d14f22564c8cd23425d7071ac, type: 3}
-  - {fileID: 8192810588590857661, guid: ff16a86d14f22564c8cd23425d7071ac, type: 3}
-  - {fileID: 8192810588590857661, guid: ff16a86d14f22564c8cd23425d7071ac, type: 3}
-  - {fileID: 8192810588590857661, guid: ff16a86d14f22564c8cd23425d7071ac, type: 3}
+  - {fileID: 8192810588590857661, guid: 3565d780deba5324b90d99cc8c294b7d, type: 3}
+  - {fileID: 8192810588590857661, guid: ad4ceb7f9b1c32c40904a4e49d8193d7, type: 3}
+  - {fileID: 8192810588590857661, guid: 9db246d7f3ccb304cbfb30137730c106, type: 3}
+  - {fileID: 8192810588590857661, guid: 14b1a8a71a490e44c883672e4ffb385c, type: 3}
+  - {fileID: 8192810588590857661, guid: 35aeedb14e2456249a655d19bdb141a7, type: 3}
+  - {fileID: 8192810588590857661, guid: f618c76872cff0a43abf292fda3d5351, type: 3}
+  - {fileID: 8192810588590857661, guid: 95403d31b5f5c634b85a35efb503c322, type: 3}
+  - {fileID: 8192810588590857661, guid: 06e5bbff63c638448b99951410af7382, type: 3}
+  - {fileID: 8192810588590857661, guid: 721e3216985b448469c5eeef03e38115, type: 3}
   SpawnOrigin: {x: 0, y: 0, z: 0}
   SpawnPosition: {x: 0, y: 0, z: 0}
   instantiatedLevels: []
