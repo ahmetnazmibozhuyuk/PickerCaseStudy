@@ -1,13 +1,98 @@
 {
-    "m_SelectedDeviceId": "",
+    "m_SelectedDeviceId": "108035b2",
     "m_SelectedPackage": {
-        "deviceId": "",
-        "name": "",
-        "processId": 0,
+        "deviceId": "108035b2",
+        "name": "com.DefaultCompany.HypercasualCaseStudyRollic",
+        "processId": 32550,
         "exited": false
     },
     "m_SelectedPriority": 0,
-    "m_KnownPackagesForSerialization": [],
+    "m_KnownPackagesForSerialization": [
+        {
+            "deviceId": "108035b2",
+            "name": "com.DefaultCompany.HypercasualCaseStudyRollic",
+            "processId": 20738,
+            "exited": true
+        },
+        {
+            "deviceId": "108035b2",
+            "name": "com.DefaultCompany.HypercasualCaseStudyRollic",
+            "processId": 22382,
+            "exited": true
+        },
+        {
+            "deviceId": "108035b2",
+            "name": "com.DefaultCompany.HypercasualCaseStudyRollic",
+            "processId": 24024,
+            "exited": true
+        },
+        {
+            "deviceId": "108035b2",
+            "name": "com.DefaultCompany.HypercasualCaseStudyRollic",
+            "processId": 26138,
+            "exited": true
+        },
+        {
+            "deviceId": "108035b2",
+            "name": "com.unity3d.mobileremote",
+            "processId": 26549,
+            "exited": false
+        },
+        {
+            "deviceId": "108035b2",
+            "name": "com.DefaultCompany.HypercasualCaseStudyRollic",
+            "processId": 27591,
+            "exited": false
+        },
+        {
+            "deviceId": "108035b2",
+            "name": "com.DefaultCompany.HypercasualCaseStudyRollic",
+            "processId": 28102,
+            "exited": false
+        },
+        {
+            "deviceId": "108035b2",
+            "name": "com.DefaultCompany.HypercasualCaseStudyRollic",
+            "processId": 28534,
+            "exited": false
+        },
+        {
+            "deviceId": "108035b2",
+            "name": "com.DefaultCompany.HypercasualCaseStudyRollic",
+            "processId": 28995,
+            "exited": false
+        },
+        {
+            "deviceId": "108035b2",
+            "name": "com.DefaultCompany.HypercasualCaseStudyRollic",
+            "processId": 30416,
+            "exited": false
+        },
+        {
+            "deviceId": "108035b2",
+            "name": "com.DefaultCompany.HypercasualCaseStudyRollic",
+            "processId": 31058,
+            "exited": false
+        },
+        {
+            "deviceId": "108035b2",
+            "name": "com.DefaultCompany.HypercasualCaseStudyRollic",
+            "processId": 31579,
+            "exited": false
+        },
+        {
+            "deviceId": "108035b2",
+            "name": "com.DefaultCompany.HypercasualCaseStudyRollic",
+            "processId": 32097,
+            "exited": false
+        },
+        {
+            "deviceId": "108035b2",
+            "name": "com.DefaultCompany.HypercasualCaseStudyRollic",
+            "processId": 32550,
+            "exited": false
+        }
+    ],
     "m_Tags": {
         "m_Entries": [
             {
@@ -41,9 +126,20 @@
         ]
     },
     "m_MemoryViewerState": {
-        "MemoryWindowHeight": 0.0,
-        "MemoryWindowWidth": 0.0,
-        "MemoryTypeEnabled": [],
+        "MemoryWindowHeight": 300.0,
+        "MemoryWindowWidth": 170.0,
+        "MemoryTypeEnabled": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+        ],
         "MemoryGroup": 2,
         "Behavior": 0
     },

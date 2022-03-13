@@ -123,19 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &174715884
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148685805301}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 998e1d11c4670d64a9ffb50e1f1b2249, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  popSound: {fileID: 174715891}
 --- !u!114 &174715885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,8 +135,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35f078c7e5f97a64ebeef7f928376a5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensitivity: 0.005
-  forwardSpeed: 0.3
+  width: 2.72
+  playerSpeed: 15
+  sensitivity: 0.01
+  forwardSpeed: 0.4
   selectController: 0
 --- !u!54 &174715886
 Rigidbody:
@@ -164,9 +153,9 @@ Rigidbody:
   m_AngularDrag: 0
   m_UseGravity: 0
   m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 116
-  m_CollisionDetection: 3
+  m_Interpolate: 1
+  m_Constraints: 4
+  m_CollisionDetection: 0
 --- !u!64 &174715887
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -174,7 +163,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132148685805301}
-  m_Material: {fileID: 13400000, guid: b023ee74adbacd242837a5e9fc272557, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -555,17 +544,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LevelPieces:
-  - {fileID: 8192810588590857661, guid: ff16a86d14f22564c8cd23425d7071ac, type: 3}
   - {fileID: 8192810588590857661, guid: 3565d780deba5324b90d99cc8c294b7d, type: 3}
-  - {fileID: 8192810588590857661, guid: ad4ceb7f9b1c32c40904a4e49d8193d7, type: 3}
-  - {fileID: 8192810588590857661, guid: 9db246d7f3ccb304cbfb30137730c106, type: 3}
-  - {fileID: 8192810588590857661, guid: 14b1a8a71a490e44c883672e4ffb385c, type: 3}
-  - {fileID: 8192810588590857661, guid: 35aeedb14e2456249a655d19bdb141a7, type: 3}
-  - {fileID: 8192810588590857661, guid: f618c76872cff0a43abf292fda3d5351, type: 3}
-  - {fileID: 8192810588590857661, guid: 95403d31b5f5c634b85a35efb503c322, type: 3}
-  - {fileID: 8192810588590857661, guid: 06e5bbff63c638448b99951410af7382, type: 3}
-  - {fileID: 8192810588590857661, guid: 721e3216985b448469c5eeef03e38115, type: 3}
-  SpawnOrigin: {x: 0, y: 0, z: 0}
+  - {fileID: 8192810588590857661, guid: 3565d780deba5324b90d99cc8c294b7d, type: 3}
+  - {fileID: 8192810588590857661, guid: 3565d780deba5324b90d99cc8c294b7d, type: 3}
+  - {fileID: 8192810588590857661, guid: 3565d780deba5324b90d99cc8c294b7d, type: 3}
+  - {fileID: 8192810588590857661, guid: 3565d780deba5324b90d99cc8c294b7d, type: 3}
+  - {fileID: 8192810588590857661, guid: 3565d780deba5324b90d99cc8c294b7d, type: 3}
+  - {fileID: 8192810588590857661, guid: 3565d780deba5324b90d99cc8c294b7d, type: 3}
+  - {fileID: 8192810588590857661, guid: 3565d780deba5324b90d99cc8c294b7d, type: 3}
+  - {fileID: 8192810588590857661, guid: 3565d780deba5324b90d99cc8c294b7d, type: 3}
+  - {fileID: 8192810588590857661, guid: 3565d780deba5324b90d99cc8c294b7d, type: 3}
   SpawnPosition: {x: 0, y: 0, z: 0}
   instantiatedLevels: []
   instantiatedLevelNumbers: 
@@ -598,7 +586,6 @@ GameObject:
   - component: {fileID: 174715886}
   - component: {fileID: 174715887}
   - component: {fileID: 174715891}
-  - component: {fileID: 174715884}
   - component: {fileID: 174715885}
   m_Layer: 0
   m_Name: rollicPlayer

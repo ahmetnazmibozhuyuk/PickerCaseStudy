@@ -14,7 +14,6 @@ public class EnterLevel : MonoBehaviour
 
         if(other.tag == "Player")
         {
-            Debug.Log(other.tag);
             LevelManager.Instance.EnablePiece();
             LevelManager.Instance.DisableOldestPiece();
             LevelManager.Instance.CurrentLevelFinished();

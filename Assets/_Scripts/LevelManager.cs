@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 public struct InstantiatedLevel
 {
     public InstantiatedLevel(GameObject levellGameObject, int levelNumber)
@@ -18,8 +19,6 @@ public class LevelManager : Singleton<LevelManager>
 
     //@TODO: INITIALIZE YAPARKEN YANI 0DAN BAŞLARKEN ARIZALAR VAR, ÜZERİNE DÜŞ!
 
-
-    public Vector3 SpawnOrigin;
 
     public Vector3 SpawnPosition;
 
@@ -77,7 +76,6 @@ public class LevelManager : Singleton<LevelManager>
 
     public void EnablePiece()
     {
-
         if (latestSpawnedLevel < LevelPieces.Length)
         {
             GameObject tempGO = (GameObject)Instantiate(LevelPieces[latestSpawnedLevel], SpawnPosition, transform.rotation);
@@ -123,17 +121,11 @@ public class LevelManager : Singleton<LevelManager>
             Destroy(instantiatedLevels[0]);
             instantiatedLevels.RemoveAt(0);
             instantiatedLevelNumbers.RemoveAt(0);
-
-            //instantiatedLevel.RemoveAt(0);
-
-
-
         }
     }
     public void CurrentLevelFinished()
     {
         currentLevel++;
-
 
     }
     public void SaveLevels()
@@ -178,12 +170,23 @@ public class LevelManager : Singleton<LevelManager>
             EnablePieceByNumber(PlayerPrefs.GetInt("1"));
             EnablePieceByNumber(PlayerPrefs.GetInt("2"));
         }
-
-
-
+    }
+    public void RestartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    private void ResetScenePosition()
+    {
+        currentSpawnPoint -= 120;
+        for (int i = 0; i <SceneManager.sceneCount; i++)
+        {
+            foreach(GameObject j in SceneManager.GetSceneAt(i).GetRootGameObjects())
+            {
+                j.transform.position = new Vector3(j.transform.position.x, j.transform.position.y, j.transform.position.z - 120);
+            }
+        }
 
     }
-
 
     //private void InstentiatePieces()
     //{

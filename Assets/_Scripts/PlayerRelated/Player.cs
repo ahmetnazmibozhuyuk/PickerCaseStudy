@@ -23,6 +23,12 @@ public class Player : MonoBehaviour
         _controller = GetComponent<Controller>();
         _playerCollider = GetComponent<Collider>();
 
+        
+
+    }
+    private void Start()
+    {
+
     }
     private void Update()
     {
@@ -33,11 +39,13 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _rigidbody.MovePosition(_controller.Movement);
+
+        //_rigidbody.MovePosition(transform.position + _controller.Movement.normalized * 100*Time.deltaTime);
+
+
     }
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("COLLIDER HIT!!");
         popSound.Play();
         
     }

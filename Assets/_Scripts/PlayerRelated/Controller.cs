@@ -5,7 +5,15 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
+    private Rigidbody _rigidbody;
+
     public Vector3 Movement { get; private set; }
+
+
+    private Vector3 direction;
+
+    [SerializeField] private float width;
+    [SerializeField] private float playerSpeed;
 
     private float _xDisplacement;
 
@@ -27,6 +35,7 @@ public class Controller : MonoBehaviour
     [SerializeField] private SelectController selectController;
     private void Awake()
     {
+        _rigidbody = GetComponent<Rigidbody>();
         _touch.phase = TouchPhase.Ended;
     }
     private void Update()
@@ -41,23 +50,11 @@ public class Controller : MonoBehaviour
                 break;
         }
         SetMovement();
-
-
-        //Debug.Log("can move left = " + CanMoveLeft() + " can move right = " + CanMoveRight());
     }
     private void FixedUpdate()
     {
+        _rigidbody.MovePosition(new Vector3((transform.position.x + (Movement.x - transform.position.x) * playerSpeed * Time.fixedDeltaTime), Movement.y, Movement.z));
 
-    }
-    private bool CanMoveLeft()
-    {
-        _leftFallPoint = new Vector3(transform.localPosition.x - 2.1f, transform.position.y, transform.position.z);
-        return Physics.Raycast(_leftFallPoint, -Vector3.up, 5);
-    }
-    private bool CanMoveRight()
-    {
-        _rightFallPoint = new Vector3(transform.localPosition.x + 2.1f, transform.position.y, transform.position.z);
-        return Physics.Raycast(_rightFallPoint, -Vector3.up, 5);
     }
     private void InputActivated()
     {
@@ -69,18 +66,6 @@ public class Controller : MonoBehaviour
     {
         _xDisplacement = (Input.mousePosition.x - _clickCenterX) * sensitivity;
 
-        if (_xDisplacement < 0 && !CanMoveLeft())
-        {
-            _clickCenterX = Input.mousePosition.x;
-            _xDisplacement = 0;
-            _playerDownPositionX = transform.position.x;
-        }
-        if (_xDisplacement > 0 && !CanMoveRight())
-        {
-            _clickCenterX = Input.mousePosition.x;
-            _xDisplacement = 0;
-            _playerDownPositionX = transform.position.x;
-        }
     }
     private void InputDeactivated()
     {
@@ -92,12 +77,43 @@ public class Controller : MonoBehaviour
     {
         if (GameManager.Instance.CurrentState == GameState.GameStarted)
         {
-            Movement = new Vector3(Mathf.Clamp(_playerDownPositionX + _xDisplacement, -3f, 3f), transform.position.y, transform.position.z + forwardSpeed);
+            float xPos;
+
+            if (_playerDownPositionX + _xDisplacement > width)
+            {
+
+                xPos = width;
+                _clickCenterX = Input.mousePosition.x;
+                _xDisplacement = 0;
+                _playerDownPositionX = transform.position.x;
+            }
+            else if (_playerDownPositionX + _xDisplacement < -width)
+            {
+                xPos = -width;
+                _clickCenterX = Input.mousePosition.x;
+                _xDisplacement = 0;
+                _playerDownPositionX = transform.position.x;
+            }
+            else
+            {
+                xPos = _playerDownPositionX + _xDisplacement;
+            }
+            //xPos = _playerDownPositionX + _xDisplacement;
+            Movement = new Vector3(xPos, transform.position.y, transform.position.z + forwardSpeed);
+            //Movement = new Vector3(Mathf.Clamp(_playerDownPositionX + _xDisplacement, -width, width), transform.position.y, transform.position.z + forwardSpeed);
+            //if(_playerDownPositionX + _xDisplacement > width || _playerDownPositionX + _xDisplacement < -width)
+            //{
+            //    _clickCenterX = Input.mousePosition.x;
+            //    _xDisplacement = 0;
+            //    _playerDownPositionX = transform.position.x;
+            //}
         }
         else
         {
-            Movement = new Vector3(Mathf.Clamp(_playerDownPositionX + _xDisplacement, -3f, 3f), transform.position.y, transform.position.z);
+            Movement = new Vector3(Mathf.Clamp(_playerDownPositionX + _xDisplacement, -width, width), transform.position.y, transform.position.z);
         }
+        direction = (Movement - transform.position).normalized;
+
     }
     private void MouseController()
     {
@@ -118,6 +134,7 @@ public class Controller : MonoBehaviour
     {
 
         if (Input.touchCount > 0) _touch = Input.GetTouch(0);
+        else return;
 
         if (_touch.phase == TouchPhase.Began)
         {
@@ -132,14 +149,6 @@ public class Controller : MonoBehaviour
             InputDeactivated();
         }
     }
-    //void OnDrawGizmosSelected()
-    //{
-
-    //    Gizmos.color = Color.blue;
-    //    Gizmos.DrawLine(transform.position, _leftFallPoint);
-    //    Gizmos.DrawLine(transform.position, _rightFallPoint);
-
-    //}
 }
 
 enum SelectController

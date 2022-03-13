@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
 public class GameManager : Singleton<GameManager>
 {
     //TODO: Oyun kapanırken vs skor kalınan bölüm gibi özellikleri PlayerPrefs.SetInt gibi bir şekilde kaydet; açılırken PlayerPrefs.GetInt ile al.
@@ -11,7 +11,6 @@ public class GameManager : Singleton<GameManager>
     private void Start()
     {
         ChangeState(GameState.GameAwaitingStart);
-
     }
 
     public void ChangeState(GameState newState)
@@ -51,12 +50,12 @@ public class GameManager : Singleton<GameManager>
     }
     private void GameLostState()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        LevelManager.Instance.RestartLevel();
         ChangeState(GameState.GameAwaitingStart);
     }
     private void GameAwaitingStartState()
     {
-        //LevelManager.Instance.InitializeGame();
+
         LevelManager.Instance.LoadLevels();
     }
 }
