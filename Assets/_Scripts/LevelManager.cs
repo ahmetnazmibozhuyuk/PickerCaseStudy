@@ -146,6 +146,7 @@ public class LevelManager : Singleton<LevelManager>
     public void LoadLevels()
     {
         currentLevel = PlayerPrefs.GetInt("currentLevel");
+        latestSpawnedLevel = currentLevel - 1;
 
         //switch (currentLevel)
         //{
