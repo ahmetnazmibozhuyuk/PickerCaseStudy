@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class GameManager : Singleton<GameManager>
 {
     //TODO: Oyun kapanırken vs skor kalınan bölüm gibi özellikleri PlayerPrefs.SetInt gibi bir şekilde kaydet; açılırken PlayerPrefs.GetInt ile al.
@@ -23,19 +23,20 @@ public class GameManager : Singleton<GameManager>
         {
             case GameState.GameAwaitingStart:
                 Debug.Log("game is awaiting start");
+                GameAwaitingStartState();
                 break;
             case GameState.GameStarted:
                 Debug.Log("game is started");
                 break;
             case GameState.GameCheckingResults:
                 Debug.Log("game checking results");
-                StartCoroutine(Co_NextLevel());
+                //StartCoroutine(Co_NextLevel());
                 break;
             case GameState.GameWon:
                 Debug.Log("game is won");
                 break;
             case GameState.GameLost:
-                Debug.Log("game is lost");
+                GameLostState();
                 break;
             default:
                 Debug.LogError("STATE NOT FOUND");
@@ -47,6 +48,15 @@ public class GameManager : Singleton<GameManager>
         yield return new WaitForSeconds(2);
         ChangeState(GameState.GameStarted);
 
+    }
+    private void GameLostState()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        ChangeState(GameState.GameAwaitingStart);
+    }
+    private void GameAwaitingStartState()
+    {
+        LevelManager.Instance.InitializeGame();
     }
 }
 public enum GameState

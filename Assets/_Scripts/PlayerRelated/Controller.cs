@@ -81,7 +81,6 @@ public class Controller : MonoBehaviour
             _xDisplacement = 0;
             _playerDownPositionX = transform.position.x;
         }
-
     }
     private void InputDeactivated()
     {
@@ -99,9 +98,7 @@ public class Controller : MonoBehaviour
         {
             Movement = new Vector3(Mathf.Clamp(_playerDownPositionX + _xDisplacement, -3f, 3f), transform.position.y, transform.position.z);
         }
-
     }
-
     private void MouseController()
     {
         if (Input.GetMouseButtonDown(0))
@@ -119,10 +116,7 @@ public class Controller : MonoBehaviour
     }
     private void TouchController()
     {
-        //switch (_touch.phase)
-        //{
 
-        //}
         if (Input.touchCount > 0) _touch = Input.GetTouch(0);
 
         if (_touch.phase == TouchPhase.Began)
