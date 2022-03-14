@@ -9,17 +9,21 @@ public interface ISpawnerActivate
 
 public class SpawnerBouncy : MonoBehaviour, ISpawnerActivate
 {
+
+
     [SerializeField] private GameObject objectToSpawn;
 
     private Rigidbody _rigidbody;
 
-    // Start is called before the first frame update
     void Start()
+    {
+
+    }
+    private void Awake()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         

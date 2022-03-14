@@ -8,7 +8,7 @@ public class Controller : MonoBehaviour
 {
     public Vector3 Movement { get; private set; }
 
-    [SerializeField] [Range(0.01f, 0.001f)] private float sensitivity = 0.02f;
+    [SerializeField] [Range(0.001f, 0.05f)] private float sensitivity = 0.02f;
     [SerializeField] private float forwardSpeed = 0.1f;
     [SerializeField] private float width;
 

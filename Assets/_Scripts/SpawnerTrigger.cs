@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class SpawnerTrigger : MonoBehaviour
 {
-    private ISpawnerActivate _spawner;
+    //private ISpawnerActivate _spawner;
 
     private void Awake()
     {
-        _spawner = GetComponentInParent<MonoBehaviour>().GetComponent<ISpawnerActivate>();
+        //_spawner = GetComponentInParent<MonoBehaviour>().GetComponent<ISpawnerActivate>();
     }
     private void OnTriggerEnter(Collider other)
     {
-        _spawner.ActivateBall();
+        //_spawner.ActivateBall();
+        Debug.Log(other);
     }
-
 }
