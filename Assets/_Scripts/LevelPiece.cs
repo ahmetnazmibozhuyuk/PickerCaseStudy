@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class LevelPiece : MonoBehaviour
 {
@@ -8,10 +9,12 @@ public class LevelPiece : MonoBehaviour
 
     private int _collectedAmount;
 
+    [SerializeField] private TextMeshProUGUI objectText;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        objectText.SetText(_collectedAmount + " / " + levelCompleteCount);
     }
 
     // Update is called once per frame
@@ -22,6 +25,6 @@ public class LevelPiece : MonoBehaviour
     public void UpdateObjectCounter()
     {
         _collectedAmount++;
-        Debug.Log(_collectedAmount + " / " + levelCompleteCount);
+        objectText.SetText(_collectedAmount + " / " + levelCompleteCount);
     }
 }

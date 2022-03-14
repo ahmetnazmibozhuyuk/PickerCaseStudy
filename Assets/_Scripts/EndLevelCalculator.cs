@@ -65,7 +65,7 @@ public class EndLevelCalculator : MonoBehaviour
             Destroy(__collectedObjects[i].gameObject);
             //__collectedObjects.RemoveAt(0);
         }
-        LeanTween.move(movablePiece, new Vector3(movablePiece.transform.position.x, 0, movablePiece.transform.position.z), 1).setEase(LeanTweenType.easeOutElastic);
+        LeanTween.move(movablePiece, new Vector3(movablePiece.transform.position.x, 0, movablePiece.transform.position.z), 2).setEase(LeanTweenType.easeOutElastic);
     }
     private void LevelLost()
     {
