@@ -6,6 +6,13 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
     public GameState CurrentState { get; private set; }
+
+    private AudioSource _audioSource;
+    protected override void Awake()
+    {
+        base.Awake();
+        _audioSource = GetComponent<AudioSource>();
+    }
     private void Start()
     {
         ChangeState(GameState.GameAwaitingStart);
@@ -60,6 +67,10 @@ public class GameManager : Singleton<GameManager>
     {
         LevelManager.Instance.RestartLevel();
         ChangeState(GameState.GameAwaitingStart);
+    }
+    public void PlaySound()
+    {
+        _audioSource.Play();
     }
 }
 public enum GameState

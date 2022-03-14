@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class Controller : MonoBehaviour
 {
     public Vector3 Movement { get; private set; }
@@ -26,7 +27,6 @@ public class Controller : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _touch.phase = TouchPhase.Ended;
-        transform.position = new Vector3(0, 1, -35); //@todo: BAŞLAMA POZİSYONUNU DÜZGÜN BELİRLE
     }
     private void Update()
     {

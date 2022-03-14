@@ -1,20 +1,30 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+// PARTICLE EFFECTLER İÇİN DE POOL KULLANABİLİRSİN; ARAŞTIR, DENE!
+
+
 public class EndLevelCalculator : MonoBehaviour
 {
-    [SerializeField]private List<GameObject> __collectedObjects = new List<GameObject>();
+    [SerializeField] private List<GameObject> __collectedObjects = new List<GameObject>();
 
-    [SerializeField] private int objectAmountRequirement = 20;
+    [SerializeField] private int _objectAmountRequirement = 20;
     [SerializeField] private GameObject movablePiece;
 
+    private LevelPiece _levelPiece;
+
+    private void Awake()
+    {
+        movablePiece = transform.GetChild(0).gameObject;
+        _levelPiece = GetComponentInParent<LevelPiece>();
+    }
     private void Start()
     {
-        if(movablePiece == null)
-        {
-            movablePiece = transform.GetChild(0).gameObject;
-        }
+        _objectAmountRequirement = _levelPiece.levelCompleteCount;
+        __collectedObjects.Clear();
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -26,7 +36,7 @@ public class EndLevelCalculator : MonoBehaviour
         else
         {
             __collectedObjects.Add(other.gameObject);
-            Debug.Log(__collectedObjects.Count);
+            _levelPiece.UpdateObjectCounter();
         }
     }
     private IEnumerator Co_CheckResults()
@@ -35,7 +45,7 @@ public class EndLevelCalculator : MonoBehaviour
 
         yield return new WaitForSeconds(1);
 
-        if (__collectedObjects.Count > objectAmountRequirement)
+        if (__collectedObjects.Count > _objectAmountRequirement)
         {
             LevelWon();
             yield return new WaitForSeconds(1);
@@ -49,7 +59,7 @@ public class EndLevelCalculator : MonoBehaviour
     private void LevelWon()
     {
         // objeleri particle effectle patlat
-        for(int i = 0;i < __collectedObjects.Count; i++)
+        for (int i = 0; i < __collectedObjects.Count; i++)
         {
             // patlama particle at _collectedObjects[i].transform.position;
             Destroy(__collectedObjects[i].gameObject);
