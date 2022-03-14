@@ -2,8 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnerBouncy : MonoBehaviour
+public interface ISpawnerActivate
 {
+    public void ActivateBall();
+}
+
+public class SpawnerBouncy : MonoBehaviour, ISpawnerActivate
+{
+    [SerializeField] private GameObject objectToSpawn;
+
+    private Rigidbody _rigidbody;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +23,10 @@ public class SpawnerBouncy : MonoBehaviour
     void Update()
     {
         
+    }
+    public void ActivateBall()
+    {
+        Debug.Log("BALL IS ACTIVATED");
+        _rigidbody.isKinematic = false;
     }
 }
