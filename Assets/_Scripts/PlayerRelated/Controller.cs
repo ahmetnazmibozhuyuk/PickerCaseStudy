@@ -5,56 +5,38 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
-    private Rigidbody _rigidbody;
-
     public Vector3 Movement { get; private set; }
 
-
-    private Vector3 direction;
-
+    [SerializeField] [Range(0.01f, 0.001f)] private float sensitivity = 0.02f;
+    [SerializeField] private float forwardSpeed = 0.1f;
     [SerializeField] private float width;
-    [SerializeField] private float playerSpeed;
+
+    [SerializeField] private SelectController selectController;
 
     private float _xDisplacement;
-
     private float _clickCenterX;
     private float _playerDownPositionX;
-
+    private float _localX;
 
     private Touch _touch;
 
-    private Vector3 _leftFallPoint;
-    private Vector3 _rightFallPoint;
+    private Rigidbody _rigidbody;
 
-    //public Vector3 Direction;
-    //@TODO REMOVE MAGIC NUMBERS!
-
-    [SerializeField] private float sensitivity = 0.02f;
-    [SerializeField] private float forwardSpeed = 0.1f;
-
-    [SerializeField] private SelectController selectController;
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _touch.phase = TouchPhase.Ended;
+        transform.position = new Vector3(0, 1, -35); //@todo: BAŞLAMA POZİSYONUNU DÜZGÜN BELİRLE
     }
     private void Update()
     {
-        switch (selectController)
-        {
-            case SelectController.MouseController:
-                MouseController();
-                break;
-            case SelectController.TouchController:
-                TouchController();
-                break;
-        }
+        ChooseController();
+        ClampMovement();
         SetMovement();
     }
     private void FixedUpdate()
     {
-        _rigidbody.MovePosition(new Vector3((transform.position.x + (Movement.x - transform.position.x) * playerSpeed * Time.fixedDeltaTime), Movement.y, Movement.z));
-
+        _rigidbody.MovePosition(Movement);
     }
     private void InputActivated()
     {
@@ -65,55 +47,43 @@ public class Controller : MonoBehaviour
     private void InputIsActive() //@TODO DÜZGÜN ŞEKİLDE REFACTOR ETMEYE ÇALIŞ!
     {
         _xDisplacement = (Input.mousePosition.x - _clickCenterX) * sensitivity;
-
     }
     private void InputDeactivated()
     {
         _xDisplacement = 0;
         _playerDownPositionX = transform.position.x;
     }
-
+    private void ClampMovement()
+    {
+        if (_playerDownPositionX + _xDisplacement >= width)
+        {
+            _xDisplacement = 0;
+            _playerDownPositionX = transform.position.x;
+            _clickCenterX = Input.mousePosition.x;
+            _localX = width;
+        }
+        else if (_playerDownPositionX + _xDisplacement <= -width)
+        {
+            _xDisplacement = 0;
+            _playerDownPositionX = transform.position.x;
+            _clickCenterX = Input.mousePosition.x;
+            _localX = -width;
+        }
+        else
+        {
+            _localX = _playerDownPositionX + _xDisplacement;
+        }
+    }
     private void SetMovement()
     {
         if (GameManager.Instance.CurrentState == GameState.GameStarted)
         {
-            float xPos;
-
-            if (_playerDownPositionX + _xDisplacement > width)
-            {
-
-                xPos = width;
-                _clickCenterX = Input.mousePosition.x;
-                _xDisplacement = 0;
-                _playerDownPositionX = transform.position.x;
-            }
-            else if (_playerDownPositionX + _xDisplacement < -width)
-            {
-                xPos = -width;
-                _clickCenterX = Input.mousePosition.x;
-                _xDisplacement = 0;
-                _playerDownPositionX = transform.position.x;
-            }
-            else
-            {
-                xPos = _playerDownPositionX + _xDisplacement;
-            }
-            //xPos = _playerDownPositionX + _xDisplacement;
-            Movement = new Vector3(xPos, transform.position.y, transform.position.z + forwardSpeed);
-            //Movement = new Vector3(Mathf.Clamp(_playerDownPositionX + _xDisplacement, -width, width), transform.position.y, transform.position.z + forwardSpeed);
-            //if(_playerDownPositionX + _xDisplacement > width || _playerDownPositionX + _xDisplacement < -width)
-            //{
-            //    _clickCenterX = Input.mousePosition.x;
-            //    _xDisplacement = 0;
-            //    _playerDownPositionX = transform.position.x;
-            //}
+            Movement = new Vector3(_localX, transform.position.y, transform.position.z + forwardSpeed);
         }
         else
         {
-            Movement = new Vector3(Mathf.Clamp(_playerDownPositionX + _xDisplacement, -width, width), transform.position.y, transform.position.z);
+            Movement = new Vector3(_localX, transform.position.y, transform.position.z);
         }
-        direction = (Movement - transform.position).normalized;
-
     }
     private void MouseController()
     {
@@ -149,9 +119,20 @@ public class Controller : MonoBehaviour
             InputDeactivated();
         }
     }
+    private void ChooseController()
+    {
+        switch (selectController)
+        {
+            case SelectController.MouseController:
+                MouseController();
+                break;
+            case SelectController.TouchController:
+                TouchController();
+                break;
+        }
+    }
 }
-
 enum SelectController
 {
-    MouseController = 0, TouchController = 1
+    MouseController = 0, TouchController = 1, KeyboardController = 2
 }

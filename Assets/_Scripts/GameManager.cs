@@ -5,9 +5,7 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    //TODO: Oyun kapanırken vs skor kalınan bölüm gibi özellikleri PlayerPrefs.SetInt gibi bir şekilde kaydet; açılırken PlayerPrefs.GetInt ile al.
     public GameState CurrentState { get; private set; }
-    //public Player Player;
     private void Start()
     {
         ChangeState(GameState.GameAwaitingStart);
@@ -21,18 +19,16 @@ public class GameManager : Singleton<GameManager>
         switch (newState)
         {
             case GameState.GameAwaitingStart:
-                Debug.Log("game is awaiting start");
                 GameAwaitingStartState();
                 break;
             case GameState.GameStarted:
-                Debug.Log("game is started");
+                GameStartedState();
                 break;
             case GameState.GameCheckingResults:
-                Debug.Log("game checking results");
-                //StartCoroutine(Co_NextLevel());
+                GameCheckingResultsState();
                 break;
             case GameState.GameWon:
-                Debug.Log("game is won");
+                GameWonState();
                 break;
             case GameState.GameLost:
                 GameLostState();
@@ -42,21 +38,28 @@ public class GameManager : Singleton<GameManager>
                 break;
         }
     }
-    private IEnumerator Co_NextLevel()
-    {
-        yield return new WaitForSeconds(2);
-        ChangeState(GameState.GameStarted);
 
+    private void GameAwaitingStartState()
+    {
+        Debug.Log("game is awaiting start");
+        LevelManager.Instance.LoadLevels();
+    }
+    private void GameStartedState()
+    {
+        Debug.Log("game is started");
+    }
+    private void GameCheckingResultsState()
+    {
+        Debug.Log("game checking results");
+    }
+    private void GameWonState()
+    {
+        Debug.Log("game is won");
     }
     private void GameLostState()
     {
         LevelManager.Instance.RestartLevel();
         ChangeState(GameState.GameAwaitingStart);
-    }
-    private void GameAwaitingStartState()
-    {
-
-        LevelManager.Instance.LoadLevels();
     }
 }
 public enum GameState

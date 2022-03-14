@@ -1,17 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
 public class EnterLevel : MonoBehaviour
 {
-    private Collider _collider;
-    private void Awake()
-    {
-        _collider = GetComponent<Collider>();
-    }
     private void OnTriggerEnter(Collider other)
     {
-
         if(other.tag == "Player")
         {
             LevelManager.Instance.EnablePiece();
@@ -20,5 +11,4 @@ public class EnterLevel : MonoBehaviour
             LevelManager.Instance.SaveLevels();
         }
     }
-    //BU TRIGGERA GİRERKEN DEĞİL BUNDAN ÇIKARKEN BİR ÖNCEKİNİ TEMİZLE.
 }

@@ -48,9 +48,10 @@ public class EndLevelCalculator : MonoBehaviour
     }
     private void LevelWon()
     {
-        //platformu düzelt, objeleri particle effectle patlat
+        // objeleri particle effectle patlat
         for(int i = 0;i < __collectedObjects.Count; i++)
         {
+            // patlama particle at _collectedObjects[i].transform.position;
             Destroy(__collectedObjects[i].gameObject);
             //__collectedObjects.RemoveAt(0);
         }
