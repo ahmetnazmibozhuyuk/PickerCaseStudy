@@ -1,36 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 public interface ISpawnerActivate
 {
-    public void ActivateBall();
+    public void ActivateSpawner();
 }
-
+[RequireComponent(typeof(Rigidbody))]
 public class SpawnerBouncy : MonoBehaviour, ISpawnerActivate
 {
-
-
     [SerializeField] private GameObject objectToSpawn;
+
+    [SerializeField] [Range(3, 12)] private int objectSpawnAmount;
+
+    private float _scatterAmount = 0.1f;
 
     private Rigidbody _rigidbody;
 
-    void Start()
-    {
-
-    }
     private void Awake()
     {
-        
+        _rigidbody = GetComponent<Rigidbody>();
     }
-
-    void Update()
+    public void ActivateSpawner()
     {
-        
-    }
-    public void ActivateBall()
-    {
-        Debug.Log("BALL IS ACTIVATED");
         _rigidbody.isKinematic = false;
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        Burst();
+    }
+    private void Burst()
+    {
+        for (int i = 0; i < objectSpawnAmount; i++)
+        {
+            Instantiate(objectToSpawn, new Vector3(
+                transform.position.x + Random.Range(-5, 5) * _scatterAmount, 
+                transform.position.y + Random.Range(-5, 5) * _scatterAmount,
+                transform.position.z),
+                transform.rotation,transform.parent);
+        }
+        Destroy(gameObject);
     }
 }
