@@ -1131,9 +1131,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 726d0c09d1869b0419a721a38bbd5c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  __collectedObjects: []
-  _objectAmountRequirement: 20
+  _collectedObjects: []
+  objectAmountRequirement: 20
   movablePiece: {fileID: 3158090706466620359}
+  particleEffect: {fileID: 6295735229892805208, guid: 158bccb66b33c9b4dbf4b0020a5c6625,
+    type: 3}
+  parSys: {fileID: 8640886685823904399, guid: 158bccb66b33c9b4dbf4b0020a5c6625, type: 3}
 --- !u!1 &8791981816632645953
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,6 +14,8 @@ namespace Picker.Managers
         {
             base.Awake();
             _audioSource = GetComponent<AudioSource>();
+
+
         }
         private void Start()
         {

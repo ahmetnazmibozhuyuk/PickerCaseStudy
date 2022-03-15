@@ -14,9 +14,13 @@ namespace Picker.Interactable
 
         private Rigidbody _rigidbody;
 
+        [SerializeField] private ObjectScript objectScript;
+
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
+
+
         }
         public override void ActivateSpawner()
         {
@@ -28,11 +32,14 @@ namespace Picker.Interactable
         }
         private void Burst()
         {
+
+
+
             for (int i = 0; i < objectSpawnAmount; i++)
             {
                 Instantiate(ObjectToSpawn, new Vector3(
-                    transform.position.x + Random.Range(-5, 5) * _scatterAmount,
-                    transform.position.y + Random.Range(-5, 5) * _scatterAmount,
+                    transform.position.x + Random.Range(-ScatterRange, ScatterRange) * _scatterAmount,
+                    transform.position.y + Random.Range(-ScatterRange, ScatterRange) * _scatterAmount,
                     transform.position.z),
                     transform.rotation, transform.parent);
             }

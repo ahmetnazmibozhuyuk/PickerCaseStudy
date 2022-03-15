@@ -9,8 +9,6 @@ namespace Picker.Interactable
 
         [SerializeField] [Range(3, 12)] private int objectSpawnAmount;
 
-  
-        
 
         private float _scatterAmount = 0.2f;
         public override void ActivateSpawner()
@@ -21,9 +19,12 @@ namespace Picker.Interactable
         {
             for (int i = 0; i < objectSpawnAmount; i++)
             {
-                Instantiate(ObjectToSpawn, new Vector3(transform.position.x + Random.Range(-5, 5) * _scatterAmount, transform.position.y + Random.Range(-5, 5) * _scatterAmount,
+                Instantiate(ObjectToSpawn, new Vector3(
+                    transform.position.x + Random.Range(-ScatterRange, ScatterRange) * _scatterAmount,
+                    transform.position.y + Random.Range(-ScatterRange, ScatterRange) * _scatterAmount,
                     transform.position.z),
-                    transform.rotation, transform.parent);
+                    transform.rotation,
+                    transform.parent);
             }
             Destroy(gameObject);
         }

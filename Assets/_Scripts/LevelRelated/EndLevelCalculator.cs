@@ -1,30 +1,72 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
+
 using Picker.Managers;
+
 
 namespace Picker.Level
 {
-    // PARTICLE EFFECTLER İÇİN DE POOL KULLANABİLİRSİN; ARAŞTIR, DENE!
     public class EndLevelCalculator : MonoBehaviour
     {
-        [SerializeField] private List<GameObject> __collectedObjects = new List<GameObject>();
+        [SerializeField] private List<GameObject> _collectedObjects = new List<GameObject>();
 
-        [SerializeField] private int _objectAmountRequirement = 20;
+        [SerializeField] private int objectAmountRequirement = 20;
         [SerializeField] private GameObject movablePiece;
 
+        [SerializeField] private GameObject particleEffect;
+
+        [SerializeField] private ParticleSystem parSys;
+
         private LevelPiece _levelPiece;
+
+
+        private ObjectPool<ParticleSystem> _particlePool;
+
+        private Stack<ParticleSystem> particlePoolStack = new Stack<ParticleSystem>();
+
 
         private void Awake()
         {
             movablePiece = transform.GetChild(0).gameObject;
             _levelPiece = GetComponentInParent<LevelPiece>();
+
+            _particlePool = new ObjectPool<ParticleSystem>(() =>
+            {
+                return Instantiate(parSys);
+            }, parSys =>
+            {
+                parSys.gameObject.SetActive(true);
+            }, parSys =>
+            {
+                parSys.gameObject.SetActive(false);
+            }, parSys =>
+             {
+                 Destroy(parSys.gameObject);
+             });
         }
+
         private void Start()
         {
-            _objectAmountRequirement = _levelPiece.levelCompleteCount;
-            __collectedObjects.Clear();
+            objectAmountRequirement = _levelPiece.levelCompleteCount;
+            _collectedObjects.Clear();
+
+
+
+            //StartCoroutine(Deneme2());
         }
+        private IEnumerator Co_ClearParticleStack()
+        {
+
+            yield return new WaitForSeconds(2);
+            for (int i = 0; i < particlePoolStack.Count; i++)
+            {
+                _particlePool.Release(particlePoolStack.Peek());
+                particlePoolStack.Pop();
+            }
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.tag == "Player")
@@ -34,17 +76,19 @@ namespace Picker.Level
             }
             else
             {
-                __collectedObjects.Add(other.gameObject);
+                _collectedObjects.Add(other.gameObject);
                 _levelPiece.UpdateObjectCounter();
             }
         }
+
+
         private IEnumerator Co_CheckResults()
         {
             GameManager.Instance.ChangeState(GameState.GameCheckingResults);
 
             yield return new WaitForSeconds(1);
 
-            if (__collectedObjects.Count > _objectAmountRequirement)
+            if (_collectedObjects.Count > objectAmountRequirement)
             {
                 LevelWon();
                 yield return new WaitForSeconds(1);
@@ -57,12 +101,11 @@ namespace Picker.Level
         }
         private void LevelWon()
         {
-            // objeleri particle effectle patlat
-            for (int i = 0; i < __collectedObjects.Count; i++)
+            for (int i = 0; i < _collectedObjects.Count; i++)
             {
-                // patlama particle at _collectedObjects[i].transform.position;
-                Destroy(__collectedObjects[i].gameObject);
-                //__collectedObjects.RemoveAt(0);
+                PoolManager.Instance.SpawnParticle(_collectedObjects[i].transform.position);
+                _collectedObjects[i].gameObject.SetActive(false);
+                StartCoroutine(Co_ClearParticleStack());
             }
             LeanTween.move(movablePiece, new Vector3(movablePiece.transform.position.x, 0, movablePiece.transform.position.z), 2).setEase(LeanTweenType.easeOutElastic);
         }
