@@ -15,10 +15,10 @@ namespace Picker.Managers
             base.Awake();
             _audioSource = GetComponent<AudioSource>();
 
-
         }
         private void Start()
         {
+
             ChangeState(GameState.GameAwaitingStart);
         }
 
@@ -69,8 +69,8 @@ namespace Picker.Managers
         }
         private void GameLostState()
         {
-            LevelManager.Instance.RestartLevel();
-            ChangeState(GameState.GameAwaitingStart);
+            //LevelManager.Instance.RestartLevel();
+            Debug.Log("game is lost, tap to restart");
         }
         public void PlaySound()
         {

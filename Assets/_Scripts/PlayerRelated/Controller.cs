@@ -43,8 +43,11 @@ namespace Picker.PlayerControl
         }
         private void InputActivated()
         {
-            if (GameManager.Instance.CurrentState == GameState.GameAwaitingStart) GameManager.Instance.ChangeState(GameState.GameStarted);
-            _clickCenterX = Input.mousePosition.x;
+            if (GameManager.Instance.CurrentState == GameState.GameAwaitingStart || GameManager.Instance.CurrentState == GameState.GameWon)
+                GameManager.Instance.ChangeState(GameState.GameStarted);
+            else if (GameManager.Instance.CurrentState == GameState.GameLost)
+                LevelManager.Instance.RestartLevel();
+                _clickCenterX = Input.mousePosition.x;
             _playerDownPositionX = transform.position.x;
         }
         private void InputIsActive() //@TODO DÜZGÜN ŞEKİLDE REFACTOR ETMEYE ÇALIŞ!

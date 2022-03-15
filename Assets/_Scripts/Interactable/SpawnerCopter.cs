@@ -1,15 +1,14 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Picker.Managers;
 
 namespace Picker.Interactable
 {
     [RequireComponent(typeof(Rigidbody))]
     public class SpawnerCopter : Spawner
     {
-        public override GameObject ObjectToSpawn { get => objectToSpawn; set => objectToSpawn = value; }
-        [SerializeField] private GameObject objectToSpawn;
 
+        [SerializeField] private PrefabToSpawn objectToSpawn;
 
         [SerializeField] private Transform[] target;
         [SerializeField] private float speed;
@@ -22,12 +21,10 @@ namespace Picker.Interactable
 
         private Vector3[] _targetPosition;
 
-        [SerializeField] private int _currentTargetIndex;
+        private int _currentTargetIndex;
 
         private Rigidbody _rigidbody;
         private bool _copterIsActive = false;
-
-
 
         private void Awake()
         {
@@ -39,8 +36,6 @@ namespace Picker.Interactable
                 _targetPosition[i] = target[i].position;
             }
         }
-
-
         private void FixedUpdate()
         {
             CopterMovement();
@@ -64,11 +59,9 @@ namespace Picker.Interactable
                 if (_currentTargetIndex < _targetPosition.Length - 1)
                 {
                     _currentTargetIndex++;
-                    Debug.Log("NEW TARGET " + _targetPosition[_currentTargetIndex]);
                 }
                 else
                 {
-                    Debug.Log("TARGET BİTTİ, current target index = " + _targetPosition[_currentTargetIndex]);
                     _copterIsActive = false;
                 }
             }
@@ -80,12 +73,12 @@ namespace Picker.Interactable
             if (spawnAmount > 0 && _copterIsActive)
             {
                 spawnAmount--;
-                Instantiate(ObjectToSpawn, transform.position, transform.rotation, transform.parent);
+                PoolManager.Instance.PrefabSpawn(objectToSpawn, transform.position);
                 StartCoroutine(Co_PeriodicSpawn());
             }
             else
             {
-                Debug.Log("spawn bitti");
+
             }
         }
 

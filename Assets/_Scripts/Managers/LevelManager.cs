@@ -21,7 +21,6 @@ namespace Picker.Managers
 
         private Vector3 SpawnPosition;
 
-        //[SerializeField]private List<GameObject> instantiatedLevels;
 
         [SerializeField] private List<GameObject> instantiatedLevels = new List<GameObject>();
         [SerializeField] private List<int> instantiatedLevelNumbers = new List<int>();
@@ -36,8 +35,8 @@ namespace Picker.Managers
 
 
         private int latestSpawnedLevel = 0;
-        private readonly int _initialSpawnAmount = 3;
-
+        private const int _initialSpawnAmount = 3;
+        private const int _levelLength = 120;
         private int _spawnedLevelIndex;
 
         protected override void Awake()
@@ -61,14 +60,14 @@ namespace Picker.Managers
                 GameObject tempGO = (GameObject)Instantiate(LevelPieces[latestSpawnedLevel], SpawnPosition, transform.rotation);
                 instantiatedLevels.Add(tempGO);
                 instantiatedLevelNumbers.Add(latestSpawnedLevel);
-                currentSpawnPoint += 120;// @TODO: MAGIC NUMBER KESİNLİKLE KALDIRMANIN BİR YOLUNU BUL
+                currentSpawnPoint += _levelLength;
                 SpawnPosition = new Vector3(0, 0, transform.position.z + currentSpawnPoint);
                 _spawnedLevelIndex = latestSpawnedLevel;
             }
             else
             {
                 int temp = Random.Range(0, LevelPieces.Length);
-                // To prevent same level spawning twice.
+                // To prevent same level spawning twice in a row.
                 if (_spawnedLevelIndex == temp)
                 {
                     temp++;
@@ -82,7 +81,7 @@ namespace Picker.Managers
 
                 instantiatedLevel.Add(new InstantiatedLevel(tempGO, temp));
 
-                currentSpawnPoint += 120; //@TODO: MAGIC NUMBER KESİNLİKLE KALDIRMANIN BİR YOLUNU BUL
+                currentSpawnPoint += _levelLength;
                 SpawnPosition = new Vector3(0, 0, transform.position.z + currentSpawnPoint);
 
                 _spawnedLevelIndex = temp;
@@ -94,7 +93,6 @@ namespace Picker.Managers
 
             //ResetScenePosition();
 
-
         }
         private void EnablePieceByNumber(int levelIndex)
         {
@@ -104,9 +102,7 @@ namespace Picker.Managers
 
             instantiatedLevel.Add(new InstantiatedLevel(tempGO, levelIndex));
 
-
-
-            currentSpawnPoint += 120;//@TODO: MAGIC NUMBER KESİNLİKLE KALDIRMANIN BİR YOLUNU BUL
+            currentSpawnPoint += _levelLength;
             SpawnPosition = new Vector3(0, 0, transform.position.z + currentSpawnPoint);
 
             latestSpawnedLevel++;
