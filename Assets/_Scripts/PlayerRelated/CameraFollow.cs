@@ -1,9 +1,14 @@
 using UnityEngine;
-public class CameraFollow : MonoBehaviour
+
+namespace Picker.PlayerControl
 {
-    [SerializeField]private Transform target;
-    void Update()
+    public class CameraFollow : MonoBehaviour
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y, target.position.z);
+        [SerializeField] private Transform target;
+        void Update()
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, target.position.z);
+        }
     }
 }
+
