@@ -1,5 +1,6 @@
 using UnityEngine;
-namespace Picker
+
+namespace Picker.Managers
 {
     public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {

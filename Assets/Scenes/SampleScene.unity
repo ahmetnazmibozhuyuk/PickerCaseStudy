@@ -306,6 +306,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &391898474 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 906043321947047528, guid: 3565d780deba5324b90d99cc8c294b7d,
+    type: 3}
+  m_PrefabInstance: {fileID: 441157318}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &441157318
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -974,6 +980,11 @@ PrefabInstance:
       propertyPath: spawnPeriod
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 3795303841819724405, guid: d507e719d4c48ce4ab4f059b05faad6d,
+        type: 3}
+      propertyPath: objectToSpawn
+      value: 
+      objectReference: {fileID: 391898474}
     - target: {fileID: 5057092978638519338, guid: d507e719d4c48ce4ab4f059b05faad6d,
         type: 3}
       propertyPath: m_UseGravity

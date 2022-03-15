@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Picker
+namespace Picker.Managers
 {
     public class GameManager : Singleton<GameManager>
     {

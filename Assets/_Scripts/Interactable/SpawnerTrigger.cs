@@ -1,4 +1,5 @@
 using UnityEngine;
+
 namespace Picker.Interactable
 {
     [RequireComponent(typeof(Collider))]

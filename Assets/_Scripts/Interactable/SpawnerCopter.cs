@@ -7,6 +7,10 @@ namespace Picker.Interactable
     [RequireComponent(typeof(Rigidbody))]
     public class SpawnerCopter : Spawner
     {
+        public override GameObject ObjectToSpawn { get => objectToSpawn; set => objectToSpawn = value; }
+        [SerializeField] private GameObject objectToSpawn;
+
+
         [SerializeField] private Transform[] target;
         [SerializeField] private float speed;
 
@@ -19,8 +23,12 @@ namespace Picker.Interactable
         private Vector3[] _targetPosition;
 
         [SerializeField] private int _currentTargetIndex;
+
         private Rigidbody _rigidbody;
         private bool _copterIsActive = false;
+
+
+
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
@@ -63,18 +71,16 @@ namespace Picker.Interactable
                     Debug.Log("TARGET BİTTİ, current target index = " + _targetPosition[_currentTargetIndex]);
                     _copterIsActive = false;
                 }
-
             }
-
         }
         private IEnumerator Co_PeriodicSpawn()
         {
 
             yield return new WaitForSeconds(spawnPeriod);
-            if (spawnAmount > 0)
+            if (spawnAmount > 0 && _copterIsActive)
             {
                 spawnAmount--;
-                //Debug.Log("object spawn");
+                Instantiate(ObjectToSpawn, transform.position, transform.rotation, transform.parent);
                 StartCoroutine(Co_PeriodicSpawn());
             }
             else

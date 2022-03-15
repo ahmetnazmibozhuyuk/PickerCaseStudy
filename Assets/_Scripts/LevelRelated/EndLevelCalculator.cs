@@ -1,12 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Picker.Managers;
 
-
-
-// PARTICLE EFFECTLER İÇİN DE POOL KULLANABİLİRSİN; ARAŞTIR, DENE!
 namespace Picker.Level
 {
+    // PARTICLE EFFECTLER İÇİN DE POOL KULLANABİLİRSİN; ARAŞTIR, DENE!
     public class EndLevelCalculator : MonoBehaviour
     {
         [SerializeField] private List<GameObject> __collectedObjects = new List<GameObject>();

@@ -1,13 +1,11 @@
 using UnityEngine;
-//public interface ISpawnerActivate
-//{
-//    public void ActivateSpawner();
-//}
+
 namespace Picker.Interactable
 {
     [RequireComponent(typeof(Rigidbody))]
     public class SpawnerBouncy : Spawner
     {
+        public override GameObject ObjectToSpawn { get => objectToSpawn; set => objectToSpawn = value; }
         [SerializeField] private GameObject objectToSpawn;
 
         [SerializeField] [Range(3, 12)] private int objectSpawnAmount;
@@ -32,7 +30,7 @@ namespace Picker.Interactable
         {
             for (int i = 0; i < objectSpawnAmount; i++)
             {
-                Instantiate(objectToSpawn, new Vector3(
+                Instantiate(ObjectToSpawn, new Vector3(
                     transform.position.x + Random.Range(-5, 5) * _scatterAmount,
                     transform.position.y + Random.Range(-5, 5) * _scatterAmount,
                     transform.position.z),
