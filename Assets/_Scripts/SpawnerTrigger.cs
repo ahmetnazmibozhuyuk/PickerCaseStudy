@@ -2,11 +2,11 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class SpawnerTrigger : MonoBehaviour
 {
-    private ISpawnerActivate _spawner;
+    private Spawner _spawner;
 
     private void Awake()
     {
-        _spawner = GetComponentInParent<ISpawnerActivate>();
+        _spawner = GetComponentInParent<Spawner>();
     }
     private void OnTriggerEnter(Collider other)
     {

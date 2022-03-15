@@ -1,10 +1,10 @@
 using UnityEngine;
-public interface ISpawnerActivate
-{
-    public void ActivateSpawner();
-}
+//public interface ISpawnerActivate
+//{
+//    public void ActivateSpawner();
+//}
 [RequireComponent(typeof(Rigidbody))]
-public class SpawnerBouncy : MonoBehaviour, ISpawnerActivate
+public class SpawnerBouncy : Spawner
 {
     [SerializeField] private GameObject objectToSpawn;
 
@@ -18,7 +18,7 @@ public class SpawnerBouncy : MonoBehaviour, ISpawnerActivate
     {
         _rigidbody = GetComponent<Rigidbody>();
     }
-    public void ActivateSpawner()
+    public override void ActivateSpawner()
     {
         _rigidbody.isKinematic = false;
     }
