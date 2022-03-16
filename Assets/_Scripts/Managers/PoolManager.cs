@@ -28,12 +28,50 @@ namespace Picker.Managers
             InitializePools();
         }
 
+        private ObjectPool<ObjectScript> InitializeObjectScript(ObjectScript obj)
+        {
+            return new ObjectPool<ObjectScript>(() =>
+            {
+                return Instantiate(obj);
+            }, obj =>
+            {
+                obj.gameObject.SetActive(true);
+            }, obj =>
+            {
+                obj.gameObject.SetActive(false);
+            }, obj =>
+            {
+                Destroy(obj.gameObject);
+            });
+        }
+
+        private ObjectPool<ParticleSystem> InitializeParticlePool(ParticleSystem obj)
+        {
+            return new ObjectPool<ParticleSystem>(() =>
+            {
+                return Instantiate(obj);
+            }, obj =>
+            {
+                obj.gameObject.SetActive(true);
+            }, obj =>
+            {
+                obj.gameObject.SetActive(false);
+            }, obj =>
+            {
+                Destroy(obj.gameObject);
+            });
+        }
+
         private void InitializePools()
         {
-            InitializeParticlePool();
-            InitializeSpherePrefabPool();
-            InitializeCapsulePrefabPool();
-            InitializeBoxPrefabPool();
+            //InitializeParticlePool();
+            _particlePool = InitializeParticlePool(endLevelWinParticle);
+            _spherePrefabPool = InitializeObjectScript(spherePrefab);
+            _capsulePrefabPool = InitializeObjectScript(capsulePrefab);
+            _boxPrefabPool = InitializeObjectScript(boxPrefab);
+            //InitializeSpherePrefabPool();
+            //InitializeCapsulePrefabPool();
+            //InitializeBoxPrefabPool();
         }
         #region Pool Initializers
         private void InitializeParticlePool()
@@ -138,7 +176,7 @@ namespace Picker.Managers
         }
         public void ReleaseAllPrefabPools()
         {
-            for(int i = 0; i < _capsulePrefabQueue.Count; i++)
+            for (int i = 0; i < _capsulePrefabQueue.Count; i++)
             {
                 _capsulePrefabPool.Release(_capsulePrefabQueue.Peek());
                 _capsulePrefabQueue.Dequeue();
