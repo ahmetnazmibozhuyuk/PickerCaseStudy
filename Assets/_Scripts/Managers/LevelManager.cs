@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,6 +14,7 @@ namespace Picker.Managers
         public GameObject instantiatedLevelGameObject;
         public int instantiatedLevelNumber;
     }
+    //@todo: LevelPieces arrayinde değişiklik olması durumunda oyunun resetlenmesi gerek; array uzunluğu 3 elemandan az olamaz.
     public class LevelManager : MonoBehaviour
     {
         public GameObject[] LevelPieces;
@@ -37,8 +37,7 @@ namespace Picker.Managers
         {
             _currentSpawnPoint = 35;
             SpawnPosition = new Vector3(0, 0, 35);
-
-            //PlayerPrefs.SetInt("currentLevel", 1);
+            //PlayerPrefs.SetInt("CurrentLevel", 1); //To start level from 1.
         }
         public void InitializeGame()
         {
@@ -70,20 +69,14 @@ namespace Picker.Managers
                 _instantiatedLevel.Add(new InstantiatedLevel(tempGO, temp));
                 _currentSpawnPoint += _levelLength;
                 SpawnPosition = new Vector3(0, 0, transform.position.z + _currentSpawnPoint);
-
                 _spawnedLevelIndex = temp;
-
             }
             _latestSpawnedLevel++;
-
             PlayerPrefs.SetInt("latestSpawnedLevel", _latestSpawnedLevel);
-
-            //ResetScenePosition();
             Debug.Log("Currently active pieces are: " + 
                 _instantiatedLevel[0].instantiatedLevelGameObject + ", " +
                 _instantiatedLevel[1].instantiatedLevelGameObject + ", "+
                 _instantiatedLevel[2].instantiatedLevelGameObject);
-
         }
         private void EnablePieceByNumber(int levelIndex)
         {
@@ -92,8 +85,6 @@ namespace Picker.Managers
             _currentSpawnPoint += _levelLength;
             SpawnPosition = new Vector3(0, 0, transform.position.z + _currentSpawnPoint);
             _latestSpawnedLevel++;
-
-            //ResetScenePosition();
         }
         public void DisableOldestPiece()
         {
@@ -107,7 +98,6 @@ namespace Picker.Managers
         {
             CurrentLevel++;
         }
-
         #region Save - Load - Restart Level
         public void SaveLevels()
         {
@@ -138,16 +128,6 @@ namespace Picker.Managers
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
         #endregion
-
-        //private void ResetScenePosition()
-        //{
-        //    foreach (GameObject i in SceneManager.GetSceneAt(0).GetRootGameObjects())
-        //    {
-        //        i.transform.position = new Vector3(i.transform.position.x, i.transform.position.y, i.transform.position.z - 120);
-        //    }
-        //    //SpawnPosition = new Vector3(SpawnPosition.x, SpawnPosition.y, SpawnPosition.z-120);
-        //    //currentSpawnPoint -= 120;
-        //}
     }
 }
 

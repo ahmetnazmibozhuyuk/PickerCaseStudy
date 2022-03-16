@@ -99,11 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72f3739e16a439f45819a4592be3a2fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToSpawn: {fileID: 6662638718911167817, guid: c0d641979d2bba047904463d8e0c9afa,
-    type: 3}
-  objectSpawnAmount: 9
-  objectScript: {fileID: 2743741360199881535, guid: 6a1f27ba09e885449bf910af415853b0,
-    type: 3}
+  objectToSpawn: 0
+  objectSpawnAmount: 10
 --- !u!135 &8711056013648986502
 SphereCollider:
   m_ObjectHideFlags: 0

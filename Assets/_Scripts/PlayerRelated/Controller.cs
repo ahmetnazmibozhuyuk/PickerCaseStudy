@@ -56,6 +56,8 @@ namespace Picker.PlayerControl
             _xDisplacement = 0;
             _playerDownPositionX = transform.position.x;
         }
+        // I used this method to clamp player position instead of using a simple Mathf.Clamp because this method also resets the 
+        // dragging position to prevent 
         private void ClampMovement()
         {
             if (_playerDownPositionX + _xDisplacement >= width)

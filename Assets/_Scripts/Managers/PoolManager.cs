@@ -12,19 +12,16 @@ namespace Picker.Managers
         [SerializeField] private ObjectScript spherePrefab;
         [SerializeField] private ObjectScript capsulePrefab;
         [SerializeField] private ObjectScript boxPrefab;
-        [SerializeField] private ObjectScript cylinderPrefab;
 
         private Queue<ParticleSystem> _particleQueue = new Queue<ParticleSystem>();
         private Queue<ObjectScript> _spherePrefabQueue = new Queue<ObjectScript>();
         private Queue<ObjectScript> _capsulePrefabQueue = new Queue<ObjectScript>();
         private Queue<ObjectScript> _boxPrefabQueue = new Queue<ObjectScript>();
-        private Queue<ObjectScript> _cylinderPrefabQueue = new Queue<ObjectScript>();
 
         private ObjectPool<ParticleSystem> _particlePool;
         private ObjectPool<ObjectScript> _spherePrefabPool;
         private ObjectPool<ObjectScript> _capsulePrefabPool;
         private ObjectPool<ObjectScript> _boxPrefabPool;
-        private ObjectPool<ObjectScript> _cylinderPrefabPool;
 
         private void Start()
         {
@@ -37,7 +34,6 @@ namespace Picker.Managers
             InitializeSpherePrefabPool();
             InitializeCapsulePrefabPool();
             InitializeBoxPrefabPool();
-            InitializeCylinderPrefabPool();
         }
         #region Pool Initializers
         private void InitializeParticlePool()
@@ -104,22 +100,6 @@ namespace Picker.Managers
                 Destroy(boxPrefab.gameObject);
             });
         }
-        private void InitializeCylinderPrefabPool()
-        {
-            _cylinderPrefabPool = new ObjectPool<ObjectScript>(() =>
-            {
-                return Instantiate(cylinderPrefab);
-            }, cylinderPrefab =>
-            {
-                cylinderPrefab.gameObject.SetActive(true);
-            }, cylinderPrefab =>
-            {
-                cylinderPrefab.gameObject.SetActive(false);
-            }, cylinderPrefab =>
-            {
-                Destroy(cylinderPrefab.gameObject);
-            });
-        }
         #endregion
         #region Pool Get and Release Methods
         public void SpawnParticle(Vector3 particleLocation)
@@ -135,7 +115,6 @@ namespace Picker.Managers
             _particlePool.Release(_particleQueue.Peek());
             _particleQueue.Dequeue();
         }
-
         public void PrefabSpawn(PrefabToSpawn prefab, Vector3 spawnLocation)
         {
             switch (prefab)

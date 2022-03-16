@@ -1,41 +1,38 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using Picker.Managers;
-
 
 namespace Picker.Level
 {
     public class EndLevelCalculator : MonoBehaviour
     {
-        [SerializeField] private List<GameObject> _collectedObjects = new List<GameObject>();
 
-        [SerializeField] private int objectAmountRequirement = 20;
         [SerializeField] private GameObject movablePiece;
+
+        private int _objectAmountRequirement = 20;
+
+        private List<GameObject> _collectedObjects = new List<GameObject>();
 
         private LevelPiece _levelPiece;
 
+        private const float _calculateTimer = 2.0f;
+
         private void Awake()
         {
-            movablePiece = transform.GetChild(0).gameObject;
+            if (movablePiece == null) movablePiece = transform.GetChild(0).gameObject;
             _levelPiece = GetComponentInParent<LevelPiece>();
-
-
         }
-
         private void Start()
         {
-            objectAmountRequirement = _levelPiece.levelCompleteCount;
+            _objectAmountRequirement = _levelPiece.levelCompleteCount;
             _collectedObjects.Clear();
         }
-
         private void OnTriggerEnter(Collider other)
         {
             if (other.tag == "Player")
             {
                 StartCoroutine(Co_CheckResults());
-
             }
             else
             {
@@ -43,22 +40,14 @@ namespace Picker.Level
                 _levelPiece.UpdateObjectCounter();
             }
         }
-
-
         private IEnumerator Co_CheckResults()
         {
             GameManager.Instance.ChangeState(GameState.GameCheckingResults);
-
-            yield return new WaitForSeconds(1);
-
-            if (_collectedObjects.Count > objectAmountRequirement)
-            {
+            yield return new WaitForSeconds(_calculateTimer);
+            if (_collectedObjects.Count >= _objectAmountRequirement)
                 LevelWon();
-            }
             else
-            {
                 LevelLost();
-            }
         }
         private void LevelWon()
         {
@@ -74,7 +63,6 @@ namespace Picker.Level
         private void LevelLost()
         {
             GameManager.Instance.ChangeState(GameState.GameLost);
-            //UI aktive et, restart?
         }
     }
 }

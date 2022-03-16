@@ -73,15 +73,14 @@ namespace Picker.Interactable
             if (spawnAmount > 0 && _copterIsActive)
             {
                 spawnAmount--;
-                PoolManager.Instance.PrefabSpawn(objectToSpawn, transform.position);
+                PoolManager.Instance.PrefabSpawn(objectToSpawn, new Vector3(transform.position.x,transform.position.y-1f,transform.position.z));
                 StartCoroutine(Co_PeriodicSpawn());
             }
             else
             {
-
+                Destroy(gameObject);
             }
         }
-
     }
 }
 
