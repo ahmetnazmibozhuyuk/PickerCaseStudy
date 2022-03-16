@@ -11,6 +11,7 @@ namespace Picker.Interactable
     {
         sphere = 0,
         capsule = 1,
-        box = 2
+        box = 2,
+        cylinder = 3
     }
 }

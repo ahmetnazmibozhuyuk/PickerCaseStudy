@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Picker.Managers;
 
@@ -41,16 +39,15 @@ namespace Picker.PlayerControl
         {
             _rigidbody.MovePosition(Movement);
         }
+        #region Input Action
         private void InputActivated()
         {
             if (GameManager.Instance.CurrentState == GameState.GameAwaitingStart || GameManager.Instance.CurrentState == GameState.GameWon)
                 GameManager.Instance.ChangeState(GameState.GameStarted);
-            else if (GameManager.Instance.CurrentState == GameState.GameLost)
-                LevelManager.Instance.RestartLevel();
-                _clickCenterX = Input.mousePosition.x;
+            _clickCenterX = Input.mousePosition.x;
             _playerDownPositionX = transform.position.x;
         }
-        private void InputIsActive() //@TODO DÜZGÜN ŞEKİLDE REFACTOR ETMEYE ÇALIŞ!
+        private void InputIsActive()
         {
             _xDisplacement = (Input.mousePosition.x - _clickCenterX) * sensitivity;
         }
@@ -91,6 +88,9 @@ namespace Picker.PlayerControl
                 Movement = new Vector3(_localX, transform.position.y, transform.position.z);
             }
         }
+        #endregion
+
+        #region Controller Spesific
         private void MouseController()
         {
             if (Input.GetMouseButtonDown(0))
@@ -108,7 +108,6 @@ namespace Picker.PlayerControl
         }
         private void TouchController()
         {
-
             if (Input.touchCount > 0) _touch = Input.GetTouch(0);
             else return;
 
@@ -137,9 +136,12 @@ namespace Picker.PlayerControl
                     break;
             }
         }
+        #endregion
     }
-    enum SelectController
+    public enum SelectController
     {
-        MouseController = 0, TouchController = 1, KeyboardController = 2
+        MouseController = 0,
+        TouchController = 1,
+        KeyboardController = 2
     }
 }

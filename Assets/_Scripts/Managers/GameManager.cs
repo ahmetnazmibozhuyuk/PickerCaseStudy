@@ -1,27 +1,32 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Picker.Managers
 {
+    [RequireComponent(typeof(LevelManager),typeof(UIManager))]
     public class GameManager : Singleton<GameManager>
     {
         public GameState CurrentState { get; private set; }
+        private LevelManager _levelManager;
+        private UIManager _uiManager;
 
         private AudioSource _audioSource;
         protected override void Awake()
         {
             base.Awake();
             _audioSource = GetComponent<AudioSource>();
-
+            _levelManager = GetComponent<LevelManager>();
+            _uiManager = GetComponent<UIManager>();
         }
         private void Start()
         {
-
             ChangeState(GameState.GameAwaitingStart);
+            _uiManager.SetCurrentLevel(_levelManager.CurrentLevel);
         }
-
+        public void PlaySound()
+        {
+            _audioSource.Play();
+        }
+        #region GAME STATES AND STATE MACHINE
         public void ChangeState(GameState newState)
         {
             if (CurrentState == newState) return;
@@ -49,15 +54,14 @@ namespace Picker.Managers
                     break;
             }
         }
-
         private void GameAwaitingStartState()
         {
-            Debug.Log("game is awaiting start");
-            LevelManager.Instance.LoadLevels();
+            _uiManager.GameAwaitingStart();
+            _levelManager.LoadLevels();
         }
         private void GameStartedState()
         {
-            Debug.Log("game is started");
+            _uiManager.GameStarted(); 
         }
         private void GameCheckingResultsState()
         {
@@ -65,17 +69,28 @@ namespace Picker.Managers
         }
         private void GameWonState()
         {
-            Debug.Log("game is won");
+            _uiManager.GameWon();
         }
         private void GameLostState()
         {
-            //LevelManager.Instance.RestartLevel();
-            Debug.Log("game is lost, tap to restart");
+            _uiManager.GameLost();
         }
-        public void PlaySound()
+        #endregion
+
+        #region LEVEL RELATED
+        public void RestartLevel()
         {
-            _audioSource.Play();
+            _levelManager.RestartLevel();
         }
+        public void EnterNewLevel()
+        {
+            _levelManager.EnablePiece();
+            _levelManager.DisableOldestPiece();
+            _levelManager.CurrentLevelFinished();
+            _levelManager.SaveLevels();
+            _uiManager.SetCurrentLevel(_levelManager.CurrentLevel);
+        }
+        #endregion
     }
     public enum GameState
     {

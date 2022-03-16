@@ -8,32 +8,38 @@ namespace Picker.Managers
 {
     public class PoolManager : Singleton<PoolManager>
     {
-        private ObjectPool<ParticleSystem> _particlePool;
-
-        private ObjectPool<ObjectScript> _spherePrefabPool;
-        private ObjectPool<ObjectScript> _capsulePrefabPool;
-        private ObjectPool<ObjectScript> _boxPrefabPool;
-
         [SerializeField] private ParticleSystem endLevelWinParticle;
-
         [SerializeField] private ObjectScript spherePrefab;
         [SerializeField] private ObjectScript capsulePrefab;
         [SerializeField] private ObjectScript boxPrefab;
-
+        [SerializeField] private ObjectScript cylinderPrefab;
 
         private Queue<ParticleSystem> _particleQueue = new Queue<ParticleSystem>();
-
         private Queue<ObjectScript> _spherePrefabQueue = new Queue<ObjectScript>();
         private Queue<ObjectScript> _capsulePrefabQueue = new Queue<ObjectScript>();
         private Queue<ObjectScript> _boxPrefabQueue = new Queue<ObjectScript>();
+        private Queue<ObjectScript> _cylinderPrefabQueue = new Queue<ObjectScript>();
 
+        private ObjectPool<ParticleSystem> _particlePool;
+        private ObjectPool<ObjectScript> _spherePrefabPool;
+        private ObjectPool<ObjectScript> _capsulePrefabPool;
+        private ObjectPool<ObjectScript> _boxPrefabPool;
+        private ObjectPool<ObjectScript> _cylinderPrefabPool;
 
         private void Start()
         {
-            InitializeParticlePool();
-            InitializeSpherePrefabPool();
+            InitializePools();
         }
 
+        private void InitializePools()
+        {
+            InitializeParticlePool();
+            InitializeSpherePrefabPool();
+            InitializeCapsulePrefabPool();
+            InitializeBoxPrefabPool();
+            InitializeCylinderPrefabPool();
+        }
+        #region Pool Initializers
         private void InitializeParticlePool()
         {
             _particlePool = new ObjectPool<ParticleSystem>(() =>
@@ -66,6 +72,56 @@ namespace Picker.Managers
                 Destroy(spherePrefab.gameObject);
             });
         }
+        private void InitializeCapsulePrefabPool()
+        {
+            _capsulePrefabPool = new ObjectPool<ObjectScript>(() =>
+            {
+                return Instantiate(capsulePrefab);
+            }, capsulePrefab =>
+            {
+                capsulePrefab.gameObject.SetActive(true);
+            }, capsulePrefab =>
+            {
+                capsulePrefab.gameObject.SetActive(false);
+            }, capsulePrefab =>
+            {
+                Destroy(capsulePrefab.gameObject);
+            });
+        }
+        private void InitializeBoxPrefabPool()
+        {
+            _boxPrefabPool = new ObjectPool<ObjectScript>(() =>
+            {
+                return Instantiate(boxPrefab);
+            }, boxPrefab =>
+            {
+                boxPrefab.gameObject.SetActive(true);
+            }, boxPrefab =>
+            {
+                boxPrefab.gameObject.SetActive(false);
+            }, boxPrefab =>
+            {
+                Destroy(boxPrefab.gameObject);
+            });
+        }
+        private void InitializeCylinderPrefabPool()
+        {
+            _cylinderPrefabPool = new ObjectPool<ObjectScript>(() =>
+            {
+                return Instantiate(cylinderPrefab);
+            }, cylinderPrefab =>
+            {
+                cylinderPrefab.gameObject.SetActive(true);
+            }, cylinderPrefab =>
+            {
+                cylinderPrefab.gameObject.SetActive(false);
+            }, cylinderPrefab =>
+            {
+                Destroy(cylinderPrefab.gameObject);
+            });
+        }
+        #endregion
+        #region Pool Get and Release Methods
         public void SpawnParticle(Vector3 particleLocation)
         {
             StartCoroutine(Co_ParticleSpawner(particleLocation));
@@ -119,5 +175,6 @@ namespace Picker.Managers
                 _spherePrefabQueue.Dequeue();
             }
         }
+        #endregion
     }
 }

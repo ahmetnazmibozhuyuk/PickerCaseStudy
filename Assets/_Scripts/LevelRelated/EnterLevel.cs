@@ -9,10 +9,7 @@ namespace Picker.Level
         {
             if (other.tag == "Player")
             {
-                LevelManager.Instance.EnablePiece();
-                LevelManager.Instance.DisableOldestPiece();
-                LevelManager.Instance.CurrentLevelFinished();
-                LevelManager.Instance.SaveLevels();
+                GameManager.Instance.EnterNewLevel();
             }
         }
     }
