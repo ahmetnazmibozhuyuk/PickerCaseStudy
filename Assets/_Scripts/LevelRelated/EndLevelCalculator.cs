@@ -16,7 +16,7 @@ namespace Picker.Level
 
         private LevelPiece _levelPiece;
 
-        private const float _calculateTimer = 2.0f;
+        private const float CalculateTimer = 2.0f;
 
         private void Awake()
         {
@@ -30,7 +30,7 @@ namespace Picker.Level
         }
         private void OnTriggerEnter(Collider other)
         {
-            if (other.tag == "Player")
+            if (other.CompareTag("Player"))
             {
                 StartCoroutine(Co_CheckResults());
             }
@@ -42,8 +42,8 @@ namespace Picker.Level
         }
         private IEnumerator Co_CheckResults()
         {
-            GameManager.Instance.ChangeState(GameState.GameCheckingResults);
-            yield return new WaitForSeconds(_calculateTimer);
+            GameManager.instance.ChangeState(GameState.GameCheckingResults);
+            yield return new WaitForSeconds(CalculateTimer);
             if (_collectedObjects.Count >= _objectAmountRequirement)
                 LevelWon();
             else
@@ -53,16 +53,16 @@ namespace Picker.Level
         {
             for (int i = 0; i < _collectedObjects.Count; i++)
             {
-                PoolManager.Instance.SpawnParticle(_collectedObjects[i].transform.position);
-                PoolManager.Instance.ReleaseAllPrefabPools();
+                PoolManager.instance.SpawnParticle(_collectedObjects[i].transform.position);
+                PoolManager.instance.ReleaseAllPrefabPools();
                 _collectedObjects[i].gameObject.SetActive(false);
             }
             LeanTween.move(movablePiece, new Vector3(movablePiece.transform.position.x, 0, movablePiece.transform.position.z), 1.5f).setEase(LeanTweenType.easeOutElastic);
-            GameManager.Instance.ChangeState(GameState.GameWon);
+            GameManager.instance.ChangeState(GameState.GameWon);
         }
         private void LevelLost()
         {
-            GameManager.Instance.ChangeState(GameState.GameLost);
+            GameManager.instance.ChangeState(GameState.GameLost);
         }
     }
 }

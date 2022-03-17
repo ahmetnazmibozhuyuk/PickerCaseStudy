@@ -13,11 +13,11 @@ namespace Picker.Interactable
         }
         //private void OnCollisionEnter(Collision collision)
         //{
-        //    GameManager.Instance.PlaySound();
+        //    GameManager.instance.PlaySound();
         //}
         private void OnDisable()
         {
-            _rigidbody.velocity = Vector3.zero; // When released back into the pool, objects may retaing their speed. This line prevents 
+            _rigidbody.velocity = Vector3.zero; // When released back into the pool, objects may retain their speed. This line prevents 
                                                 // pooled objects flying unexpectedly when re-used.
         }
     }

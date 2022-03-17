@@ -9,8 +9,8 @@ namespace Picker.Interactable
     }
     public enum PrefabToSpawn
     {
-        sphere = 0,
-        capsule = 1,
-        box = 2
+        Sphere = 0,
+        Capsule = 1,
+        Box = 2
     }
 }

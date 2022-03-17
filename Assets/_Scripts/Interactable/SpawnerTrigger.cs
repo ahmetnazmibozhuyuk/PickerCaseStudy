@@ -17,7 +17,7 @@ namespace Picker.Interactable
         }
         private void OnTriggerEnter(Collider other)
         {
-            if (other.tag == "Player") _spawner.ActivateSpawner();
+            if (other.CompareTag("Player")) _spawner.ActivateSpawner();
         }
     }
 }

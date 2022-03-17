@@ -10,9 +10,9 @@ namespace Picker.Managers
     /// </summary>
     public struct InstantiatedLevel
     {
-        public InstantiatedLevel(GameObject levellGameObject, int levelNumber)
+        public InstantiatedLevel(GameObject levelGameObject, int levelNumber)
         {
-            instantiatedLevelGameObject = levellGameObject;
+            instantiatedLevelGameObject = levelGameObject;
             instantiatedLevelNumber = levelNumber;
         }
         public GameObject instantiatedLevelGameObject;
@@ -22,9 +22,9 @@ namespace Picker.Managers
     public class LevelManager : MonoBehaviour
     {
         [Tooltip("The list for individual level prefabs. Add created levels to this array.")]
-        public GameObject[] LevelPieces;
+        public GameObject[] levelPieces;
 
-        [HideInInspector] public int CurrentLevel = 1;
+       [HideInInspector] public int currentLevel = 1;
 
         private Vector3 _spawnPosition;
 
@@ -36,8 +36,8 @@ namespace Picker.Managers
         private int _spawnedLevelIndex;
         private int _amountOfLevelPrefabs;
 
-        private const int _initialSpawnAmount = 3;
-        private const int _levelLength = 120;
+        private const int InitialSpawnAmount = 3;
+        private const int LevelLength = 120;
 
         private void Awake()
         {
@@ -46,17 +46,17 @@ namespace Picker.Managers
             _spawnPosition = new Vector3(0, 0, 35);
         }
         /// <summary>
-        ///  Starts the level from level 1 when the length of LevelPieces changes. Remove if inconvenient.
+        ///  Starts the level from level 1 when the length of levelPieces changes. Remove if inconvenient.
         /// </summary>
         private void ResetGameOnLevelPieceChange()
         {
-            _amountOfLevelPrefabs = LevelPieces.Length;
+            _amountOfLevelPrefabs = levelPieces.Length;
             if (_amountOfLevelPrefabs < 3)
-                throw new ArgumentException("The array length of LevelPieces can't be less than 3.");
+                throw new ArgumentException("The array length of levelPieces can't be less than 3.");
             if (_amountOfLevelPrefabs != PlayerPrefs.GetInt("_amountOfLevelPrefabs"))
             {
                 PlayerPrefs.SetInt("_amountOfLevelPrefabs", _amountOfLevelPrefabs);
-                PlayerPrefs.SetInt("CurrentLevel", 1); //To start level from 1.
+                PlayerPrefs.SetInt("currentLevel", 1); //To start level from 1.
             }
         }
         public void InitializeGame()
@@ -67,27 +67,27 @@ namespace Picker.Managers
         }
         public void EnablePiece()
         {
-            if (_latestSpawnedLevel < LevelPieces.Length)
+            if (_latestSpawnedLevel < levelPieces.Length)
             {
-                GameObject tempGO = (GameObject)Instantiate(LevelPieces[_latestSpawnedLevel], _spawnPosition, transform.rotation);
+                GameObject tempGO = (GameObject)Instantiate(levelPieces[_latestSpawnedLevel], _spawnPosition, transform.rotation);
                 _instantiatedLevel.Add(new InstantiatedLevel(tempGO, _latestSpawnedLevel));
-                _currentSpawnPoint += _levelLength;
+                _currentSpawnPoint += LevelLength;
                 _spawnPosition = new Vector3(0, 0, transform.position.z + _currentSpawnPoint);
                 _spawnedLevelIndex = _latestSpawnedLevel;
             }
             else
             {
-                int temp = UnityEngine.Random.Range(0, LevelPieces.Length);
+                int temp = UnityEngine.Random.Range(0, levelPieces.Length);
                 // To prevent same level spawning twice in a row.
                 if (_spawnedLevelIndex == temp)
                 {
                     temp++;
-                    if (temp > LevelPieces.Length - 1)
+                    if (temp > levelPieces.Length - 1)
                         temp = 0;
                 }
-                GameObject tempGO = (GameObject)Instantiate(LevelPieces[temp], _spawnPosition, transform.rotation);
+                GameObject tempGO = (GameObject)Instantiate(levelPieces[temp], _spawnPosition, transform.rotation);
                 _instantiatedLevel.Add(new InstantiatedLevel(tempGO, temp));
-                _currentSpawnPoint += _levelLength;
+                _currentSpawnPoint += LevelLength;
                 _spawnPosition = new Vector3(0, 0, transform.position.z + _currentSpawnPoint);
                 _spawnedLevelIndex = temp;
             }
@@ -100,15 +100,15 @@ namespace Picker.Managers
         }
         private void EnablePieceByNumber(int levelIndex)
         {
-            GameObject tempGO = (GameObject)Instantiate(LevelPieces[levelIndex], _spawnPosition, transform.rotation);
+            GameObject tempGO = (GameObject)Instantiate(levelPieces[levelIndex], _spawnPosition, transform.rotation);
             _instantiatedLevel.Add(new InstantiatedLevel(tempGO, levelIndex));
-            _currentSpawnPoint += _levelLength;
+            _currentSpawnPoint += LevelLength;
             _spawnPosition = new Vector3(0, 0, transform.position.z + _currentSpawnPoint);
             _latestSpawnedLevel++;
         }
         public void DisableOldestPiece()
         {
-            if (_instantiatedLevel.Count > _initialSpawnAmount)
+            if (_instantiatedLevel.Count > InitialSpawnAmount)
             {
                 Destroy(_instantiatedLevel[0].instantiatedLevelGameObject);
                 _instantiatedLevel.RemoveAt(0);
@@ -116,21 +116,21 @@ namespace Picker.Managers
         }
         public void CurrentLevelFinished()
         {
-            CurrentLevel++;
+            currentLevel++;
         }
         #region Save - Load - Restart Level
         public void SaveLevels()
         {
-            PlayerPrefs.SetInt("CurrentLevel", CurrentLevel);
+            PlayerPrefs.SetInt("currentLevel", currentLevel);
             PlayerPrefs.SetInt("0", _instantiatedLevel[0].instantiatedLevelNumber);
             PlayerPrefs.SetInt("1", _instantiatedLevel[1].instantiatedLevelNumber);
             PlayerPrefs.SetInt("2", _instantiatedLevel[2].instantiatedLevelNumber);
         }
         public void LoadLevels()
         {
-            CurrentLevel = PlayerPrefs.GetInt("CurrentLevel");
-            _latestSpawnedLevel = CurrentLevel - 1;
-            if (CurrentLevel == 1)
+            currentLevel = PlayerPrefs.GetInt("currentLevel");
+            _latestSpawnedLevel = currentLevel - 1;
+            if (currentLevel == 1)
             {
                 EnablePieceByNumber(0);
                 EnablePieceByNumber(1);

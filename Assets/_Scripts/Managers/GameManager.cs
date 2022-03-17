@@ -6,7 +6,7 @@ namespace Picker.Managers
     [RequireComponent(typeof(LevelManager),typeof(UIManager), typeof(AudioSource))]
     public class GameManager : Singleton<GameManager>
     {
-        public GameState CurrentState { get; private set; }
+        public GameState currentState { get; private set; }
 
         private LevelManager _levelManager;
         private UIManager _uiManager;
@@ -21,7 +21,7 @@ namespace Picker.Managers
         private void Start()
         {
             ChangeState(GameState.GameAwaitingStart);
-            _uiManager.SetCurrentLevel(_levelManager.CurrentLevel);
+            _uiManager.SetCurrentLevel(_levelManager.currentLevel);
         }
         public void PlaySound()
         {
@@ -30,9 +30,9 @@ namespace Picker.Managers
         #region Game States and State Machine
         public void ChangeState(GameState newState)
         {
-            if (CurrentState == newState) return;
+            if (currentState == newState) return;
 
-            CurrentState = newState;
+            currentState = newState;
             switch (newState)
             {
                 case GameState.GameAwaitingStart:
@@ -94,7 +94,7 @@ namespace Picker.Managers
             _levelManager.DisableOldestPiece();
             _levelManager.CurrentLevelFinished();
             _levelManager.SaveLevels();
-            _uiManager.SetCurrentLevel(_levelManager.CurrentLevel);
+            _uiManager.SetCurrentLevel(_levelManager.currentLevel);
         }
         #endregion
     }

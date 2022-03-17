@@ -48,8 +48,8 @@ namespace Picker.PlayerControl
         #region Input Action
         private void InputActivated()
         {
-            if (GameManager.Instance.CurrentState == GameState.GameAwaitingStart || GameManager.Instance.CurrentState == GameState.GameWon)
-                GameManager.Instance.ChangeState(GameState.GameStarted);
+            if (GameManager.instance.currentState == GameState.GameAwaitingStart || GameManager.instance.currentState == GameState.GameWon)
+                GameManager.instance.ChangeState(GameState.GameStarted);
             _clickCenterX = Input.mousePosition.x;
             _playerDownPositionX = transform.position.x;
         }
@@ -86,7 +86,7 @@ namespace Picker.PlayerControl
         }
         private void SetMovement()
         {
-            if (GameManager.Instance.CurrentState == GameState.GameStarted)
+            if (GameManager.instance.currentState == GameState.GameStarted)
             {
                 _movement = new Vector3(_localX, transform.position.y, transform.position.z + forwardSpeed);
             }

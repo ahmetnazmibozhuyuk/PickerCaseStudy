@@ -19,7 +19,7 @@ namespace Picker.Interactable
         {
             for (int i = 0; i < objectSpawnAmount; i++)
             {    
-                PoolManager.Instance.PrefabSpawn(objectToSpawn, new Vector3(
+                PoolManager.instance.PrefabSpawn(objectToSpawn, new Vector3(
                     transform.position.x + Random.Range(-ScatterRange, ScatterRange) * _scatterAmount,
                     transform.position.y + Random.Range(-ScatterRange, ScatterRange) * _scatterAmount,
                     transform.position.z));

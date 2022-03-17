@@ -23,10 +23,10 @@ namespace Picker.Managers
         [SerializeField] private ObjectScript capsulePrefab;
         [SerializeField] private ObjectScript boxPrefab;
 
-        private Queue<ParticleSystem> _particleQueue = new Queue<ParticleSystem>();
-        private Queue<ObjectScript> _spherePrefabQueue = new Queue<ObjectScript>();
-        private Queue<ObjectScript> _capsulePrefabQueue = new Queue<ObjectScript>();
-        private Queue<ObjectScript> _boxPrefabQueue = new Queue<ObjectScript>();
+        private Queue<ParticleSystem> _particleQueue = new();
+        private Queue<ObjectScript> _spherePrefabQueue = new();
+        private Queue<ObjectScript> _capsulePrefabQueue = new();
+        private Queue<ObjectScript> _boxPrefabQueue = new();
 
         private ObjectPool<ParticleSystem> _particlePool;
         private ObjectPool<ObjectScript> _spherePrefabPool;
@@ -104,17 +104,17 @@ namespace Picker.Managers
         {
             switch (prefab)
             {
-                case PrefabToSpawn.capsule:
+                case PrefabToSpawn.Capsule:
                     var capsule = _capsulePrefabPool.Get();
                     capsule.transform.position = spawnLocation;
                     _capsulePrefabQueue.Enqueue(capsule);
                     break;
-                case PrefabToSpawn.box:
+                case PrefabToSpawn.Box:
                     var box = _boxPrefabPool.Get();
                     box.transform.position = spawnLocation;
                     _boxPrefabQueue.Enqueue(box);
                     break;
-                case PrefabToSpawn.sphere:
+                case PrefabToSpawn.Sphere:
                     var sphere = _spherePrefabPool.Get();
                     sphere.transform.position = spawnLocation;
                     _spherePrefabQueue.Enqueue(sphere);

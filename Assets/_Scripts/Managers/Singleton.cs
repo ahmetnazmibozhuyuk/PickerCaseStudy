@@ -4,16 +4,16 @@ namespace Picker.Managers
 {
     public abstract class Singleton<T> : MonoBehaviour where T : Component
     {
-        public static T Instance { get; private set; }
+        public static T instance { get; private set; }
         protected virtual void Awake()
         {
-            if (Instance != null)
+            if (instance != null)
             {
                 Destroy(gameObject);
                 return;
             }
             //DontDestroyOnLoad(gameObject);
-            Instance = this as T;
+            instance = this as T;
         }
     }
 }
