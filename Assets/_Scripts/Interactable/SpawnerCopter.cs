@@ -7,14 +7,17 @@ namespace Picker.Interactable
     [RequireComponent(typeof(Rigidbody))]
     public class SpawnerCopter : Spawner
     {
-
+        [Tooltip("Select which prefab to spawn when copter is activated.")]
         [SerializeField] private PrefabToSpawn objectToSpawn;
 
+        [Tooltip("The copter will follow the targets in numerical order when activated. Amount of targets can be increased or decreased by simply modifying this array.")]
         [SerializeField] private Transform[] target;
-        [SerializeField] private float speed;
 
+        [SerializeField] private float speed;
+        [Tooltip("The copter will spawn a prefab every spawnPeriod second(s).")]
         [SerializeField] private float spawnPeriod;
 
+        [Tooltip("Total prefab spawn amount.")]
         [SerializeField] private int spawnAmount;
 
         private Vector3 _moveTowardsPosition;
@@ -29,7 +32,6 @@ namespace Picker.Interactable
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
-
             _targetPosition = new Vector3[target.Length];
             for (int i = 0; i < _targetPosition.Length; i++)
             {

@@ -17,6 +17,9 @@ namespace Picker.Managers
         [SerializeField] private GameObject youLostTextObject;
         [SerializeField] private GameObject restartButtonObject;
 
+        private float _gamePanelFadeTime = 0.3f;
+        private float _gamePanelAlpha = 0.9f;
+
         public void SetCurrentLevel(int currentLevel)
         {
             levelText.SetText("Level: " + currentLevel);
@@ -28,7 +31,7 @@ namespace Picker.Managers
         }
         public void GameStarted()
         {
-            LeanTween.alpha(gamePanel, 0, 0.3f);
+            LeanTween.alpha(gamePanel, 0, _gamePanelFadeTime);
             youWonTextObject.SetActive(false);
             tapToPlayObject.SetActive(false);
             tapToPlayTextObject.SetActive(false);
@@ -37,15 +40,14 @@ namespace Picker.Managers
         }
         public void GameWon()
         {
-            LeanTween.alpha(gamePanel, 0.9f, 0.3f);
+            LeanTween.alpha(gamePanel, _gamePanelAlpha, _gamePanelFadeTime);
             youWonTextObject.SetActive(true);
             tapToPlayObject.SetActive(true);
             tapToPlayTextObject.SetActive(true);
-
         }
         public void GameLost()
         {
-            LeanTween.alpha(gamePanel, 0.9f, 0.3f);
+            LeanTween.alpha(gamePanel, _gamePanelAlpha, _gamePanelFadeTime);
             youLostTextObject.SetActive(true);
             restartButtonObject.SetActive(true);
         }

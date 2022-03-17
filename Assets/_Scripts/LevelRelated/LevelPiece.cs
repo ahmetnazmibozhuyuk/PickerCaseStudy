@@ -7,10 +7,9 @@ namespace Picker.Level
     {
         public int levelCompleteCount;
 
-        private int _collectedAmount;
-
         [SerializeField] private TextMeshProUGUI objectText;
 
+        private int _collectedAmount;
         void Start()
         {
             objectText.SetText(_collectedAmount + " / " + levelCompleteCount);

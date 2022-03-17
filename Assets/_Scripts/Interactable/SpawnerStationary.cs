@@ -5,6 +5,7 @@ namespace Picker.Interactable
 {
     public class SpawnerStationary : Spawner
     {
+        [Tooltip("Select which prefab to spawn when this object bursts.")]
         [SerializeField] private PrefabToSpawn objectToSpawn;
 
         [SerializeField] [Range(3, 12)] private int objectSpawnAmount;

@@ -7,18 +7,24 @@ namespace Picker.PlayerControl
     [RequireComponent(typeof(Rigidbody))]
     public class Controller : MonoBehaviour
     {
-        public Vector3 Movement { get; private set; }
+        [Tooltip("Movement multiplier in x direction.")]
+        [Range(0.001f, 0.05f)]
+        [SerializeField] private float sensitivity = 0.02f;
 
-        [SerializeField] [Range(0.001f, 0.05f)] private float sensitivity = 0.02f;
         [SerializeField] private float forwardSpeed = 0.1f;
-        [SerializeField] private float width;
 
+        [Tooltip("The limits in the x direction. Should only be modified when the player or road size changes.")]
+        [SerializeField] private float width = 5.1f;
+
+        [Tooltip("Switch to test touch or mouse controllers.")]
         [SerializeField] private SelectController selectController;
 
         private float _xDisplacement;
         private float _clickCenterX;
         private float _playerDownPositionX;
         private float _localX;
+
+        private Vector3 _movement;
 
         private Touch _touch;
 
@@ -37,7 +43,7 @@ namespace Picker.PlayerControl
         }
         private void FixedUpdate()
         {
-            _rigidbody.MovePosition(Movement);
+            _rigidbody.MovePosition(_movement);
         }
         #region Input Action
         private void InputActivated()
@@ -56,8 +62,7 @@ namespace Picker.PlayerControl
             _xDisplacement = 0;
             _playerDownPositionX = transform.position.x;
         }
-        // I used this method to clamp player position instead of using a simple Mathf.Clamp because this method also resets the 
-        // dragging position to prevent 
+        // I used this method to clamp player position instead of using a simple Mathf.Clamp because this method also resets other parameters for a smoother control.
         private void ClampMovement()
         {
             if (_playerDownPositionX + _xDisplacement >= width)
@@ -83,11 +88,11 @@ namespace Picker.PlayerControl
         {
             if (GameManager.Instance.CurrentState == GameState.GameStarted)
             {
-                Movement = new Vector3(_localX, transform.position.y, transform.position.z + forwardSpeed);
+                _movement = new Vector3(_localX, transform.position.y, transform.position.z + forwardSpeed);
             }
             else
             {
-                Movement = new Vector3(_localX, transform.position.y, transform.position.z);
+                _movement = new Vector3(_localX, transform.position.y, transform.position.z);
             }
         }
         #endregion
@@ -143,7 +148,6 @@ namespace Picker.PlayerControl
     public enum SelectController
     {
         MouseController = 0,
-        TouchController = 1,
-        KeyboardController = 2
+        TouchController = 1
     }
 }

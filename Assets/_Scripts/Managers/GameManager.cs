@@ -1,21 +1,22 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Picker.Managers
 {
-    [RequireComponent(typeof(LevelManager),typeof(UIManager))]
+    [RequireComponent(typeof(LevelManager),typeof(UIManager), typeof(AudioSource))]
     public class GameManager : Singleton<GameManager>
     {
         public GameState CurrentState { get; private set; }
+
         private LevelManager _levelManager;
         private UIManager _uiManager;
-
         private AudioSource _audioSource;
         protected override void Awake()
         {
             base.Awake();
-            _audioSource = GetComponent<AudioSource>();
             _levelManager = GetComponent<LevelManager>();
             _uiManager = GetComponent<UIManager>();
+            _audioSource = GetComponent<AudioSource>();
         }
         private void Start()
         {
@@ -26,7 +27,7 @@ namespace Picker.Managers
         {
             _audioSource.Play();
         }
-        #region GAME STATES AND STATE MACHINE
+        #region Game States and State Machine
         public void ChangeState(GameState newState)
         {
             if (CurrentState == newState) return;
@@ -50,8 +51,7 @@ namespace Picker.Managers
                     GameLostState();
                     break;
                 default:
-                    Debug.LogError("STATE NOT FOUND");
-                    break;
+                    throw new ArgumentException("Invalid game state selection.");
             }
         }
         private void GameAwaitingStartState()
@@ -65,7 +65,7 @@ namespace Picker.Managers
         }
         private void GameCheckingResultsState()
         {
-            Debug.Log("game checking results");
+            //Debug.Log("game checking results");
         }
         private void GameWonState()
         {
@@ -77,11 +77,17 @@ namespace Picker.Managers
         }
         #endregion
 
-        #region LEVEL RELATED
+        #region Level Related
+        /// <summary>
+        ///  Resets the current scene.
+        /// </summary>
         public void RestartLevel()
         {
             _levelManager.RestartLevel();
         }
+        /// <summary>
+        ///  Removes the previous level piece and instantiates the next on the list.
+        /// </summary>
         public void EnterNewLevel()
         {
             _levelManager.EnablePiece();
@@ -101,5 +107,4 @@ namespace Picker.Managers
         GameWon = 4,
         GameLost = 5,
     }
-
 }

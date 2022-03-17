@@ -17,7 +17,8 @@ namespace Picker.Interactable
         //}
         private void OnDisable()
         {
-            _rigidbody.velocity = Vector3.zero;
+            _rigidbody.velocity = Vector3.zero; // When released back into the pool, objects may retaing their speed. This line prevents 
+                                                // pooled objects flying unexpectedly when re-used.
         }
     }
 }

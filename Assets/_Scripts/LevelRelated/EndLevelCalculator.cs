@@ -7,12 +7,12 @@ namespace Picker.Level
 {
     public class EndLevelCalculator : MonoBehaviour
     {
-
+        [Tooltip("The object that fixes the road when the level is clear.")]
         [SerializeField] private GameObject movablePiece;
 
         private int _objectAmountRequirement = 20;
 
-        private List<GameObject> _collectedObjects = new List<GameObject>();
+        private List<GameObject> _collectedObjects = new();
 
         private LevelPiece _levelPiece;
 

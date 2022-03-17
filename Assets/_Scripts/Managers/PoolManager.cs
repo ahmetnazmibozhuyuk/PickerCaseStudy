@@ -6,8 +6,18 @@ using Picker.Interactable;
 
 namespace Picker.Managers
 {
+    /// <summary>
+    ///  Summon and remove objects from this class instead of instantiating and destroying them.
+    /// </summary>
     public class PoolManager : Singleton<PoolManager>
     {
+        /*
+         * The main reason for me to create this project using Unity version 2021.2.15f1 is the new native object pooling. I had a simple pooling script
+         * that was ready to use but I thought this case study would be a great opportunity to switch.
+         *
+         * This class contains any object that needs to be pooled and can be extended with ease. It was made singleton so its exposed
+         * methods can be used from any script that needs it.
+         */
         [SerializeField] private ParticleSystem endLevelWinParticle;
         [SerializeField] private ObjectScript spherePrefab;
         [SerializeField] private ObjectScript capsulePrefab;
@@ -27,7 +37,15 @@ namespace Picker.Managers
         {
             InitializePools();
         }
+        #region Pool Initializers
+        private void InitializePools()
+        {
+            _particlePool = InitializeParticlePool(endLevelWinParticle);
 
+            _spherePrefabPool = InitializeObjectScript(spherePrefab);
+            _capsulePrefabPool = InitializeObjectScript(capsulePrefab);
+            _boxPrefabPool = InitializeObjectScript(boxPrefab);
+        }
         private ObjectPool<ObjectScript> InitializeObjectScript(ObjectScript obj)
         {
             return new ObjectPool<ObjectScript>(() =>
@@ -44,7 +62,6 @@ namespace Picker.Managers
                 Destroy(obj.gameObject);
             });
         }
-
         private ObjectPool<ParticleSystem> InitializeParticlePool(ParticleSystem obj)
         {
             return new ObjectPool<ParticleSystem>(() =>
@@ -61,85 +78,12 @@ namespace Picker.Managers
                 Destroy(obj.gameObject);
             });
         }
-
-        private void InitializePools()
-        {
-            //InitializeParticlePool();
-            _particlePool = InitializeParticlePool(endLevelWinParticle);
-            _spherePrefabPool = InitializeObjectScript(spherePrefab);
-            _capsulePrefabPool = InitializeObjectScript(capsulePrefab);
-            _boxPrefabPool = InitializeObjectScript(boxPrefab);
-            //InitializeSpherePrefabPool();
-            //InitializeCapsulePrefabPool();
-            //InitializeBoxPrefabPool();
-        }
-        #region Pool Initializers
-        private void InitializeParticlePool()
-        {
-            _particlePool = new ObjectPool<ParticleSystem>(() =>
-            {
-                return Instantiate(endLevelWinParticle);
-            }, endLevelWinParticle =>
-            {
-                endLevelWinParticle.gameObject.SetActive(true);
-            }, endLevelWinParticle =>
-            {
-                endLevelWinParticle.gameObject.SetActive(false);
-            }, endLevelWinParticle =>
-            {
-                Destroy(endLevelWinParticle.gameObject);
-            });
-        }
-        private void InitializeSpherePrefabPool()
-        {
-            _spherePrefabPool = new ObjectPool<ObjectScript>(() =>
-            {
-                return Instantiate(spherePrefab);
-            }, spherePrefab =>
-            {
-                spherePrefab.gameObject.SetActive(true);
-            }, spherePrefab =>
-            {
-                spherePrefab.gameObject.SetActive(false);
-            }, spherePrefab =>
-            {
-                Destroy(spherePrefab.gameObject);
-            });
-        }
-        private void InitializeCapsulePrefabPool()
-        {
-            _capsulePrefabPool = new ObjectPool<ObjectScript>(() =>
-            {
-                return Instantiate(capsulePrefab);
-            }, capsulePrefab =>
-            {
-                capsulePrefab.gameObject.SetActive(true);
-            }, capsulePrefab =>
-            {
-                capsulePrefab.gameObject.SetActive(false);
-            }, capsulePrefab =>
-            {
-                Destroy(capsulePrefab.gameObject);
-            });
-        }
-        private void InitializeBoxPrefabPool()
-        {
-            _boxPrefabPool = new ObjectPool<ObjectScript>(() =>
-            {
-                return Instantiate(boxPrefab);
-            }, boxPrefab =>
-            {
-                boxPrefab.gameObject.SetActive(true);
-            }, boxPrefab =>
-            {
-                boxPrefab.gameObject.SetActive(false);
-            }, boxPrefab =>
-            {
-                Destroy(boxPrefab.gameObject);
-            });
-        }
         #endregion
+
         #region Pool Get and Release Methods
+        /// <summary>
+        ///  Summon a particle from pool.
+        /// </summary>
         public void SpawnParticle(Vector3 particleLocation)
         {
             StartCoroutine(Co_ParticleSpawner(particleLocation));
@@ -153,6 +97,9 @@ namespace Picker.Managers
             _particlePool.Release(_particleQueue.Peek());
             _particleQueue.Dequeue();
         }
+        /// <summary>
+        ///  Summon a prefab from pool.
+        /// </summary>
         public void PrefabSpawn(PrefabToSpawn prefab, Vector3 spawnLocation)
         {
             switch (prefab)
@@ -174,6 +121,9 @@ namespace Picker.Managers
                     break;
             }
         }
+        /// <summary>
+        ///  Removes every object that summoned from any object pool.
+        /// </summary>
         public void ReleaseAllPrefabPools()
         {
             for (int i = 0; i < _capsulePrefabQueue.Count; i++)
