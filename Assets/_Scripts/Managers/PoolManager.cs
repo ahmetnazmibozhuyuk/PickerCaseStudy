@@ -11,13 +11,6 @@ namespace Picker.Managers
     /// </summary>
     public class PoolManager : Singleton<PoolManager>
     {
-        /*
-         * The main reason for me to create this project using Unity version 2021.2.15f1 is the new native object pooling. I had a simple pooling script
-         * that was ready to use but I thought this case study would be a great opportunity to switch.
-         *
-         * This class contains any object that needs to be pooled and can be extended with ease. It was made singleton so its exposed
-         * methods can be used from any script that needs it.
-         */
         [SerializeField] private ParticleSystem endLevelWinParticle;
         [SerializeField] private ObjectScript spherePrefab;
         [SerializeField] private ObjectScript capsulePrefab;
